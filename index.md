@@ -23,12 +23,12 @@ Paris & Bourgogne – Père de trois filles (Edith, Lisa, Audrey)
 
 ### Dunod – Les références sérieuses
 - **Aide-Mémoire C++** (2021, préface Alain Zanchetta – Microsoft France)
-- **Aide-Mémoire C#**
+- **Aide-Mémoire C#**  (2021, préface Eric Vernié - Microsoft France)
 
 ### Amazon KDP – C++ Moderne & IA
 - *Modern C++ and STL*
 - *Apprendre le C++ Moderne et la STL sous Windows, Linux et Azure*
-- *Professional C++ – PROD*
+- *Professional C++ – Philosophy and Principles*
 - *Architecture et Techniques Avancées en C++*
 - *AI Essential LLM Papers*
 - *AI Technical Papers – Octobre 2025*
