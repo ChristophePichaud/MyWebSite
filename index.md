@@ -7,7 +7,7 @@ layout: default
 
 # Christophe Pichaud
 
-**MVP Microsoft C++** – **ex-Senior PFE** – **Architecte logiciel** chez Infeeny (Groupe Econocom)  
+**MVP Microsoft C++** – **ex-Senior PFE** – **Architecte logiciel** chez Aurera
 Paris & Bourgogne – Père de trois filles (Edith, Lisa, Audrey)
 
 > « Le vrai pouvoir, c’est quand ton appli MFC de 2025 tourne plus fluide que 95 % des apps web actuelles. »
