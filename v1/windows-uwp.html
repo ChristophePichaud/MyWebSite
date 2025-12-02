@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UWP and WinUI | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📦 UWP and WinUI</h1>
+        <p>Develop modern Windows apps with Universal Windows Platform and WinUI 3 framework.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Modern Windows UI Development</h2>
+            <p>WinUI 3 is the latest native UI framework for Windows desktop applications. It provides the Fluent Design System, modern controls, and excellent performance for Windows 10 and 11 applications.</p>
+
+            <h3>UWP vs WinUI 3</h3>
+            <ul>
+                <li><strong>UWP:</strong> Sandboxed apps for Microsoft Store, limited system access</li>
+                <li><strong>WinUI 3:</strong> Full Win32 capabilities with modern UI, flexible distribution</li>
+            </ul>
+
+            <h3>Getting Started with WinUI 3</h3>
+            <p>Create a new WinUI 3 project using the Windows App SDK:</p>
+            <div class="code-block">
+// App.xaml.cs
+public partial class App : Application
+{
+    private Window? m_window;
+
+    public App()
+    {
+        this.InitializeComponent();
+    }
+
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    {
+        m_window = new MainWindow();
+        m_window.Activate();
+    }
+}
+            </div>
+
+            <h3>XAML UI Definition</h3>
+            <div class="code-block">
+&lt;!-- MainWindow.xaml --&gt;
+&lt;Window
+    x:Class="MyApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+
+    &lt;NavigationView x:Name="NavView" 
+                    IsBackButtonVisible="Collapsed"
+                    IsSettingsVisible="True"
+                    SelectionChanged="NavView_SelectionChanged"&gt;
+        
+        &lt;NavigationView.MenuItems&gt;
+            &lt;NavigationViewItem Icon="Home" Content="Home" Tag="home"/&gt;
+            &lt;NavigationViewItem Icon="Document" Content="Documents" Tag="docs"/&gt;
+            &lt;NavigationViewItem Icon="Setting" Content="Settings" Tag="settings"/&gt;
+        &lt;/NavigationView.MenuItems&gt;
+
+        &lt;Frame x:Name="ContentFrame"/&gt;
+    &lt;/NavigationView&gt;
+&lt;/Window&gt;
+            </div>
+
+            <h3>Fluent Design Controls</h3>
+            <div class="code-block">
+&lt;!-- Modern Input Controls --&gt;
+&lt;StackPanel Spacing="16"&gt;
+    &lt;TextBox Header="Name" PlaceholderText="Enter your name"/&gt;
+    
+    &lt;ComboBox Header="Country" PlaceholderText="Select"&gt;
+        &lt;ComboBoxItem&gt;France&lt;/ComboBoxItem&gt;
+        &lt;ComboBoxItem&gt;Germany&lt;/ComboBoxItem&gt;
+        &lt;ComboBoxItem&gt;USA&lt;/ComboBoxItem&gt;
+    &lt;/ComboBox&gt;
+    
+    &lt;ToggleSwitch Header="Enable notifications" IsOn="True"/&gt;
+    
+    &lt;Slider Header="Volume" Minimum="0" Maximum="100" Value="50"/&gt;
+    
+    &lt;Button Content="Submit" Style="{StaticResource AccentButtonStyle}"/&gt;
+&lt;/StackPanel&gt;
+            </div>
+
+            <h3>Community Toolkit</h3>
+            <p>The Windows Community Toolkit provides additional controls and helpers:</p>
+            <ul>
+                <li>DataGrid for tabular data</li>
+                <li>SettingsCard for settings pages</li>
+                <li>ImageCropper for image editing</li>
+                <li>Loading animations</li>
+            </ul>
+
+            <div class="code-block">
+&lt;!-- Using Community Toolkit --&gt;
+&lt;toolkit:SettingsCard Header="Appearance"
+                      Description="Change how the app looks"
+                      HeaderIcon="{ui:SymbolIcon Symbol=Paintbrush}"&gt;
+    &lt;ComboBox SelectedIndex="0"&gt;
+        &lt;ComboBoxItem&gt;Light&lt;/ComboBoxItem&gt;
+        &lt;ComboBoxItem&gt;Dark&lt;/ComboBoxItem&gt;
+        &lt;ComboBoxItem&gt;System&lt;/ComboBoxItem&gt;
+    &lt;/ComboBox&gt;
+&lt;/toolkit:SettingsCard&gt;
+            </div>
+
+            <h3>Migration from UWP</h3>
+            <ul>
+                <li>Most XAML transfers directly to WinUI 3</li>
+                <li>Update namespace references</li>
+                <li>Use Windows App SDK instead of UWP APIs</li>
+                <li>Package with MSIX for Store distribution</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

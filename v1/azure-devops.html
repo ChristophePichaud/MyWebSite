@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚙️ Azure DevOps</h1>
+        <p>Master CI/CD pipelines, version control, and project management with Azure DevOps services.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>What is Azure DevOps?</h2>
+            <p>Azure DevOps is a set of development tools and services that support teams in planning work, collaborating on code development, and building and deploying applications. It provides an integrated environment for the entire software development lifecycle.</p>
+
+            <h3>Core Services</h3>
+            <ul>
+                <li><strong>Azure Boards:</strong> Plan, track, and discuss work across teams</li>
+                <li><strong>Azure Repos:</strong> Unlimited cloud-hosted private Git repositories</li>
+                <li><strong>Azure Pipelines:</strong> Build, test, and deploy with CI/CD</li>
+                <li><strong>Azure Test Plans:</strong> Manual and exploratory testing tools</li>
+                <li><strong>Azure Artifacts:</strong> Create, host, and share packages</li>
+            </ul>
+
+            <h3>Setting Up Your First Pipeline</h3>
+            <p>Azure Pipelines uses YAML files to define your build and release processes:</p>
+
+            <div class="code-block">
+# azure-pipelines.yml
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+
+- script: dotnet build --configuration Release
+  displayName: 'Build project'
+
+- script: dotnet test --configuration Release
+  displayName: 'Run tests'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+            </div>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Use branch policies to enforce code review</li>
+                <li>Implement automated testing in your pipelines</li>
+                <li>Use variable groups for managing secrets</li>
+                <li>Set up environments for deployment approval workflows</li>
+                <li>Monitor pipeline performance and optimize build times</li>
+            </ul>
+
+            <h3>Integration with Other Tools</h3>
+            <p>Azure DevOps integrates seamlessly with:</p>
+            <ul>
+                <li>GitHub repositories</li>
+                <li>Docker and Kubernetes</li>
+                <li>Slack and Microsoft Teams</li>
+                <li>Jenkins and other CI tools</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

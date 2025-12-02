@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Programming | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #333333;
+            color: #fcc624;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #333333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fcc624;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #333333;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #fcc624;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔧 System Programming</h1>
+        <p>Master Linux system programming with systemd, daemons, and kernel interactions.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Linux System Programming</h2>
+            <p>System programming involves writing software that provides services to applications or interacts directly with the operating system kernel. This includes file I/O, process management, networking, and device interaction.</p>
+
+            <h3>File I/O</h3>
+            <div class="code-block">
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+
+// Low-level file operations
+int fd = open("file.txt", O_RDWR | O_CREAT, 0644);
+if (fd == -1) {
+    perror("open");
+    return -1;
+}
+
+char buffer[1024];
+ssize_t bytes_read = read(fd, buffer, sizeof(buffer));
+ssize_t bytes_written = write(fd, "Hello", 5);
+
+// Memory-mapped I/O
+void* addr = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+// ... use memory directly ...
+munmap(addr, file_size);
+
+close(fd);
+            </div>
+
+            <h3>Process Management</h3>
+            <div class="code-block">
+#include &lt;unistd.h&gt;
+#include &lt;sys/wait.h&gt;
+
+// Fork a new process
+pid_t pid = fork();
+
+if (pid == 0) {
+    // Child process
+    execl("/bin/ls", "ls", "-la", NULL);
+    _exit(1);  // Only reached if exec fails
+} else if (pid > 0) {
+    // Parent process
+    int status;
+    waitpid(pid, &status, 0);
+    
+    if (WIFEXITED(status)) {
+        printf("Child exited with code %d\n", WEXITSTATUS(status));
+    }
+} else {
+    perror("fork");
+}
+            </div>
+
+            <h3>Creating a Daemon</h3>
+            <div class="code-block">
+#include &lt;syslog.h&gt;
+
+void daemonize() {
+    pid_t pid = fork();
+    if (pid < 0) exit(EXIT_FAILURE);
+    if (pid > 0) exit(EXIT_SUCCESS);  // Parent exits
+
+    // Create new session
+    if (setsid() < 0) exit(EXIT_FAILURE);
+
+    // Fork again to prevent controlling terminal
+    pid = fork();
+    if (pid < 0) exit(EXIT_FAILURE);
+    if (pid > 0) exit(EXIT_SUCCESS);
+
+    // Set file permissions
+    umask(0);
+
+    // Change working directory
+    chdir("/");
+
+    // Close standard file descriptors
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    // Open syslog
+    openlog("mydaemon", LOG_PID, LOG_DAEMON);
+    syslog(LOG_INFO, "Daemon started");
+}
+            </div>
+
+            <h3>Systemd Service</h3>
+            <p>Modern Linux uses systemd for service management:</p>
+            <div class="code-block">
+# /etc/systemd/system/myservice.service
+[Unit]
+Description=My Custom Service
+After=network.target
+
+[Service]
+Type=simple
+User=myuser
+WorkingDirectory=/opt/myapp
+ExecStart=/opt/myapp/myservice
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+            </div>
+
+            <div class="code-block">
+# Manage the service
+sudo systemctl daemon-reload
+sudo systemctl start myservice
+sudo systemctl enable myservice
+sudo systemctl status myservice
+journalctl -u myservice -f
+            </div>
+
+            <h3>Signals</h3>
+            <div class="code-block">
+#include &lt;signal.h&gt;
+
+volatile sig_atomic_t running = 1;
+
+void signal_handler(int sig) {
+    if (sig == SIGTERM || sig == SIGINT) {
+        running = 0;
+    }
+}
+
+int main() {
+    // Set up signal handlers
+    struct sigaction sa;
+    sa.sa_handler = signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
+    
+    while (running) {
+        // Main loop
+        sleep(1);
+    }
+    
+    printf("Shutting down gracefully\n");
+    return 0;
+}
+            </div>
+
+            <h3>IPC Mechanisms</h3>
+            <ul>
+                <li><strong>Pipes:</strong> Simple unidirectional communication</li>
+                <li><strong>Named Pipes (FIFO):</strong> File-based pipes</li>
+                <li><strong>Message Queues:</strong> Kernel-managed message passing</li>
+                <li><strong>Shared Memory:</strong> Fastest IPC for large data</li>
+                <li><strong>Sockets:</strong> Network and local communication</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

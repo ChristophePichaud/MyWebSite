@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFC Applications | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 MFC Applications</h1>
+        <p>Create rich desktop applications with Microsoft Foundation Classes and modern UI features.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Microsoft Foundation Classes</h2>
+            <p>MFC is a C++ class library that wraps Win32 API, providing object-oriented abstractions for Windows programming. It enables rapid development of professional desktop applications with features like document/view architecture, toolbars, and property sheets.</p>
+
+            <h3>Why MFC in 2025?</h3>
+            <ul>
+                <li><strong>Mature Framework:</strong> Battle-tested over 30 years</li>
+                <li><strong>Rich UI Components:</strong> Ribbon, property grids, docking</li>
+                <li><strong>Document/View:</strong> Clean separation of data and presentation</li>
+                <li><strong>Enterprise Ready:</strong> Thousands of production applications</li>
+            </ul>
+
+            <h3>Creating an MFC Application</h3>
+            <p>Visual Studio provides MFC Application Wizard for quick project setup.</p>
+            
+            <div class="code-block">
+// MyApp.h - Application class
+class CMyApp : public CWinApp
+{
+public:
+    virtual BOOL InitInstance();
+    DECLARE_MESSAGE_MAP()
+};
+
+// MyApp.cpp
+BOOL CMyApp::InitInstance()
+{
+    CWinApp::InitInstance();
+    
+    // Create main frame
+    CMainFrame* pFrame = new CMainFrame;
+    if (!pFrame->LoadFrame(IDR_MAINFRAME))
+        return FALSE;
+    
+    m_pMainWnd = pFrame;
+    pFrame->ShowWindow(SW_SHOW);
+    pFrame->UpdateWindow();
+    
+    return TRUE;
+}
+            </div>
+
+            <h3>Document/View Architecture</h3>
+            <div class="code-block">
+// Document class - holds your data
+class CMyDocument : public CDocument
+{
+protected:
+    CString m_strContent;
+    
+public:
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    
+    void SetContent(const CString& str) { m_strContent = str; }
+    CString GetContent() const { return m_strContent; }
+};
+
+// View class - displays the data
+class CMyView : public CView
+{
+protected:
+    virtual void OnDraw(CDC* pDC);
+    
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    DECLARE_MESSAGE_MAP()
+};
+
+void CMyView::OnDraw(CDC* pDC)
+{
+    CMyDocument* pDoc = GetDocument();
+    pDC-&gt;TextOut(10, 10, pDoc-&gt;GetContent());
+}
+            </div>
+
+            <h3>Modern MFC Features</h3>
+            
+            <h4>Office-Style Ribbon</h4>
+            <div class="code-block">
+// Create ribbon bar
+CMFCRibbonBar m_wndRibbonBar;
+m_wndRibbonBar.Create(this);
+
+// Add category
+CMFCRibbonCategory* pCategory = 
+    m_wndRibbonBar.AddCategory(_T("Home"), IDB_HOME_LARGE, IDB_HOME_SMALL);
+
+// Add panel
+CMFCRibbonPanel* pPanel = pCategory-&gt;AddPanel(_T("Actions"));
+
+// Add buttons
+pPanel-&gt;Add(new CMFCRibbonButton(ID_FILE_NEW, _T("New"), 0, 0));
+pPanel-&gt;Add(new CMFCRibbonButton(ID_FILE_OPEN, _T("Open"), 1, 1));
+            </div>
+
+            <h4>Docking Panes</h4>
+            <div class="code-block">
+// Create dockable pane
+CDockablePane m_wndProperties;
+m_wndProperties.Create(_T("Properties"), this, CRect(0, 0, 200, 400),
+    TRUE, ID_VIEW_PROPERTIES,
+    WS_CHILD | WS_VISIBLE | CBRS_LEFT);
+
+m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+DockPane(&m_wndProperties);
+            </div>
+
+            <h3>UltraFluidModeler</h3>
+            <p>Check out <a href="https://github.com/ChristophePichaud/UltraFluidModelerNET">UltraFluidModelerNET</a> - a real-world example of what's possible with MFC: a professional modeling tool with ribbon UI, property grid, tabbed documents, and infinite zoom/pan.</p>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>
