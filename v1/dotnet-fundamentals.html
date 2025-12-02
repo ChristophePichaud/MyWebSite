@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.NET Fundamentals | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #512bd4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #512bd4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #512bd4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #512bd4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #512bd4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔷 .NET Fundamentals</h1>
+        <p>Master the basics of .NET development, from C# syntax to building your first application.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introduction to .NET</h2>
+            <p>.NET is a free, cross-platform, open-source developer platform for building many different types of applications. With .NET, you can use multiple languages, editors, and libraries to build for web, mobile, desktop, games, IoT, and more.</p>
+
+            <h3>Why .NET?</h3>
+            <ul>
+                <li><strong>Cross-platform:</strong> Build and run on Windows, Linux, and macOS</li>
+                <li><strong>High performance:</strong> One of the fastest web frameworks available</li>
+                <li><strong>Unified platform:</strong> One SDK for all application types</li>
+                <li><strong>Strong ecosystem:</strong> Rich libraries and active community</li>
+            </ul>
+
+            <h3>Your First C# Program</h3>
+            <p>Create a simple console application:</p>
+            <div class="code-block">
+// Program.cs
+Console.WriteLine("Hello, .NET World!");
+
+// Using top-level statements (C# 9+)
+// No Main method required!
+            </div>
+
+            <h3>Creating a New Project</h3>
+            <div class="code-block">
+# Create a new console application
+dotnet new console -n MyFirstApp
+
+# Navigate to the project
+cd MyFirstApp
+
+# Run the application
+dotnet run
+            </div>
+
+            <h3>C# Language Features</h3>
+            <p>Modern C# includes powerful features:</p>
+            <div class="code-block">
+// Records for immutable data
+public record Person(string Name, int Age);
+
+// Pattern matching
+var message = person switch
+{
+    { Age: < 18 } => "Minor",
+    { Age: >= 18 and < 65 } => "Adult",
+    _ => "Senior"
+};
+
+// Null-conditional and null-coalescing
+string? name = person?.Name ?? "Unknown";
+
+// LINQ for data manipulation
+var adults = people.Where(p => p.Age >= 18)
+                   .OrderBy(p => p.Name)
+                   .ToList();
+            </div>
+
+            <h3>Next Steps</h3>
+            <ul>
+                <li>Learn C# basics: variables, types, and operators</li>
+                <li>Understand object-oriented programming in C#</li>
+                <li>Explore async/await for asynchronous programming</li>
+                <li>Build your first web API with ASP.NET Core</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

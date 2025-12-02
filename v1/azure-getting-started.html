@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started with Azure | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>☁️ Getting Started with Azure</h1>
+        <p>Learn the fundamentals of Microsoft Azure cloud services and start building scalable applications today.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introduction to Azure</h2>
+            <p>Microsoft Azure is a comprehensive cloud computing platform that provides a wide range of services including computing, analytics, storage, and networking. Whether you're building new applications or running existing ones, Azure offers the flexibility to choose the right tools for your needs.</p>
+
+            <h3>Why Choose Azure?</h3>
+            <ul>
+                <li><strong>Global Infrastructure:</strong> Azure operates in 60+ regions worldwide, ensuring low latency and high availability.</li>
+                <li><strong>Hybrid Capabilities:</strong> Seamlessly integrate on-premises infrastructure with cloud services.</li>
+                <li><strong>Enterprise Grade Security:</strong> Built-in security features and compliance certifications.</li>
+                <li><strong>AI and Machine Learning:</strong> Access to cutting-edge AI services and tools.</li>
+            </ul>
+
+            <h3>Getting Your First Azure Account</h3>
+            <p>Start with a free Azure account that includes:</p>
+            <ul>
+                <li>$200 credit for 30 days</li>
+                <li>12 months of popular free services</li>
+                <li>25+ services that are always free</li>
+            </ul>
+
+            <h3>Key Azure Services</h3>
+            <p>Here are the essential services to get started:</p>
+
+            <h4>Azure App Service</h4>
+            <p>Deploy web applications quickly with this fully managed platform:</p>
+            <div class="code-block">
+az webapp create --resource-group MyResourceGroup \
+    --plan MyAppServicePlan --name MyUniqueAppName \
+    --runtime "DOTNET:8.0"
+            </div>
+
+            <h4>Azure Storage</h4>
+            <p>Store and manage data with high availability:</p>
+            <div class="code-block">
+az storage account create --name mystorageaccount \
+    --resource-group MyResourceGroup \
+    --location westeurope --sku Standard_LRS
+            </div>
+
+            <h3>Next Steps</h3>
+            <ul>
+                <li>Explore Azure Portal and familiarize yourself with the dashboard</li>
+                <li>Create your first resource group</li>
+                <li>Deploy a simple web application</li>
+                <li>Learn about Azure Resource Manager templates</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

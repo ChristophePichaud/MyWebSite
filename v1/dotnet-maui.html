@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.NET MAUI | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #512bd4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #512bd4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #512bd4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #512bd4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #512bd4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📱 .NET MAUI</h1>
+        <p>Create cross-platform native applications for iOS, Android, macOS, and Windows with .NET MAUI.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>What is .NET MAUI?</h2>
+            <p>.NET Multi-platform App UI (.NET MAUI) is a framework for building native, cross-platform mobile and desktop apps with C# and XAML. It's the evolution of Xamarin.Forms, extended to support desktop scenarios.</p>
+
+            <h3>Supported Platforms</h3>
+            <ul>
+                <li><strong>Android:</strong> API 21+ (Android 5.0 Lollipop)</li>
+                <li><strong>iOS:</strong> iOS 11+</li>
+                <li><strong>macOS:</strong> macOS 10.15+ (via Mac Catalyst)</li>
+                <li><strong>Windows:</strong> Windows 10/11 (via WinUI 3)</li>
+            </ul>
+
+            <h3>Creating Your First MAUI App</h3>
+            <div class="code-block">
+# Create a new MAUI application
+dotnet new maui -n MyMauiApp
+
+# Navigate to the project
+cd MyMauiApp
+
+# Build and run on Windows
+dotnet build -t:Run -f net8.0-windows10.0.19041.0
+            </div>
+
+            <h3>XAML UI Definition</h3>
+            <p>Define your UI with XAML:</p>
+            <div class="code-block">
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.MainPage"&gt;
+
+    &lt;VerticalStackLayout Spacing="25" Padding="30"&gt;
+        &lt;Label Text="Welcome to .NET MAUI!"
+               FontSize="32"
+               HorizontalOptions="Center" /&gt;
+        
+        &lt;Entry x:Name="NameEntry"
+               Placeholder="Enter your name" /&gt;
+        
+        &lt;Button Text="Say Hello"
+                Clicked="OnButtonClicked" /&gt;
+        
+        &lt;Label x:Name="ResultLabel"
+               FontSize="18" /&gt;
+    &lt;/VerticalStackLayout&gt;
+
+&lt;/ContentPage&gt;
+            </div>
+
+            <h3>Code-Behind</h3>
+            <div class="code-block">
+public partial class MainPage : ContentPage
+{
+    public MainPage()
+    {
+        InitializeComponent();
+    }
+
+    private void OnButtonClicked(object sender, EventArgs e)
+    {
+        var name = NameEntry.Text;
+        ResultLabel.Text = string.IsNullOrEmpty(name) 
+            ? "Hello, World!" 
+            : $"Hello, {name}!";
+    }
+}
+            </div>
+
+            <h3>MVVM Pattern</h3>
+            <p>Use the CommunityToolkit.Mvvm for clean architecture:</p>
+            <div class="code-block">
+public partial class MainViewModel : ObservableObject
+{
+    [ObservableProperty]
+    private string name = string.Empty;
+
+    [ObservableProperty]
+    private string greeting = string.Empty;
+
+    [RelayCommand]
+    private void SayHello()
+    {
+        Greeting = string.IsNullOrEmpty(Name) 
+            ? "Hello, World!" 
+            : $"Hello, {Name}!";
+    }
+}
+            </div>
+
+            <h3>Next Steps</h3>
+            <ul>
+                <li>Learn XAML fundamentals and layouts</li>
+                <li>Implement navigation between pages</li>
+                <li>Use platform-specific code when needed</li>
+                <li>Publish to app stores</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

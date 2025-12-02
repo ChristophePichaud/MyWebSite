@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win32 API Development | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🪟 Win32 API Development</h1>
+        <p>Build native Windows applications using the powerful Win32 API and Windows SDK.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introduction to Win32</h2>
+            <p>The Win32 API is the core set of application programming interfaces available in Windows operating systems. Despite its age, it remains the foundation for Windows desktop development and provides unmatched control and performance.</p>
+
+            <h3>Why Learn Win32?</h3>
+            <ul>
+                <li><strong>Maximum Performance:</strong> Direct access to system resources</li>
+                <li><strong>Complete Control:</strong> Fine-grained manipulation of windows and messages</li>
+                <li><strong>Foundation:</strong> All other Windows frameworks build upon Win32</li>
+                <li><strong>Legacy Support:</strong> Maintain and extend existing applications</li>
+            </ul>
+
+            <h3>Your First Win32 Application</h3>
+            <div class="code-block">
+#include &lt;windows.h&gt;
+
+// Window procedure
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    switch (msg) {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        case WM_PAINT: {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+            TextOut(hdc, 50, 50, TEXT("Hello, Win32!"), 13);
+            EndPaint(hwnd, &ps);
+            return 0;
+        }
+    }
+    return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                   LPSTR lpCmdLine, int nCmdShow) {
+    // Register window class
+    WNDCLASS wc = {};
+    wc.lpfnWndProc = WndProc;
+    wc.hInstance = hInstance;
+    wc.lpszClassName = TEXT("MyWindowClass");
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    RegisterClass(&wc);
+
+    // Create window
+    HWND hwnd = CreateWindowEx(
+        0, TEXT("MyWindowClass"), TEXT("My First Win32 App"),
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
+        NULL, NULL, hInstance, NULL
+    );
+
+    ShowWindow(hwnd, nCmdShow);
+
+    // Message loop
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    return (int)msg.wParam;
+}
+            </div>
+
+            <h3>Key Concepts</h3>
+            
+            <h4>Message Loop</h4>
+            <p>Windows applications are event-driven. The message loop retrieves messages from the queue and dispatches them to window procedures.</p>
+
+            <h4>Window Procedure</h4>
+            <p>Each window class has a procedure that handles messages (WM_PAINT, WM_DESTROY, etc.).</p>
+
+            <h4>Common Messages</h4>
+            <ul>
+                <li><strong>WM_CREATE:</strong> Window is being created</li>
+                <li><strong>WM_PAINT:</strong> Window needs repainting</li>
+                <li><strong>WM_SIZE:</strong> Window size changed</li>
+                <li><strong>WM_COMMAND:</strong> Menu or button clicked</li>
+                <li><strong>WM_DESTROY:</strong> Window is being destroyed</li>
+            </ul>
+
+            <h3>Modern Win32</h3>
+            <p>Modern Windows development combines Win32 with newer technologies:</p>
+            <ul>
+                <li>Direct2D and DirectWrite for hardware-accelerated 2D graphics</li>
+                <li>Windows Runtime (WinRT) for modern APIs</li>
+                <li>XAML Islands for modern UI in Win32 apps</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

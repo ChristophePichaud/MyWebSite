@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Optimization | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #00599c;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #00599c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00599c;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #00599c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #00599c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Performance Optimization</h1>
+        <p>Learn advanced techniques for writing high-performance C++ code with memory and CPU optimization.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Performance Principles</h2>
+            <p>C++ is known for its performance capabilities. Understanding how to write efficient code requires knowledge of memory management, CPU architecture, and compiler optimizations.</p>
+
+            <h3>Memory Optimization</h3>
+            
+            <h4>Cache-Friendly Data Structures</h4>
+            <div class="code-block">
+// Bad: Array of Structures (AoS) - poor cache locality
+struct Particle {
+    float x, y, z;
+    float vx, vy, vz;
+    float mass;
+};
+std::vector&lt;Particle&gt; particles;
+
+// Good: Structure of Arrays (SoA) - better cache locality
+struct ParticleSystem {
+    std::vector&lt;float&gt; x, y, z;
+    std::vector&lt;float&gt; vx, vy, vz;
+    std::vector&lt;float&gt; mass;
+};
+            </div>
+
+            <h4>Avoiding Unnecessary Allocations</h4>
+            <div class="code-block">
+// Reserve capacity to avoid reallocations
+std::vector&lt;int&gt; v;
+v.reserve(1000);  // Pre-allocate memory
+
+// Use string_view to avoid copies
+void process(std::string_view sv) {
+    // No allocation, just a view
+}
+
+// Small Buffer Optimization (SBO)
+// std::string uses it automatically for small strings
+std::string small = "Hello";  // No heap allocation
+            </div>
+
+            <h3>Move Semantics</h3>
+            <p>Avoid unnecessary copies with move semantics:</p>
+            <div class="code-block">
+class Buffer {
+    std::unique_ptr&lt;char[]&gt; data_;
+    size_t size_;
+
+public:
+    // Move constructor - transfer ownership
+    Buffer(Buffer&& other) noexcept
+        : data_(std::move(other.data_))
+        , size_(std::exchange(other.size_, 0))
+    {}
+
+    // Move assignment
+    Buffer& operator=(Buffer&& other) noexcept {
+        if (this != &other) {
+            data_ = std::move(other.data_);
+            size_ = std::exchange(other.size_, 0);
+        }
+        return *this;
+    }
+};
+
+// Use std::move when transferring
+std::vector&lt;Buffer&gt; buffers;
+buffers.push_back(std::move(myBuffer));
+            </div>
+
+            <h3>Compiler Optimizations</h3>
+            <ul>
+                <li><strong>-O2/-O3:</strong> Enable compiler optimizations</li>
+                <li><strong>-march=native:</strong> Use CPU-specific instructions</li>
+                <li><strong>inline:</strong> Reduce function call overhead</li>
+                <li><strong>constexpr:</strong> Compute at compile time</li>
+            </ul>
+
+            <div class="code-block">
+// constexpr - compile-time computation
+constexpr int factorial(int n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
+}
+
+constexpr int result = factorial(10);  // Computed at compile time
+
+// Force inlining for performance-critical code
+[[gnu::always_inline]] inline void hot_function() {
+    // Critical code
+}
+            </div>
+
+            <h3>SIMD and Parallelism</h3>
+            <div class="code-block">
+#include &lt;execution&gt;
+#include &lt;algorithm&gt;
+
+std::vector&lt;int&gt; v(1000000);
+
+// Parallel algorithms (C++17)
+std::sort(std::execution::par, v.begin(), v.end());
+
+std::for_each(std::execution::par_unseq, v.begin(), v.end(),
+    [](int& x) { x *= 2; });
+
+// Manual SIMD (with intrinsics)
+#include &lt;immintrin.h&gt;
+
+void add_vectors(float* a, float* b, float* c, size_t n) {
+    for (size_t i = 0; i < n; i += 8) {
+        __m256 va = _mm256_load_ps(a + i);
+        __m256 vb = _mm256_load_ps(b + i);
+        __m256 vc = _mm256_add_ps(va, vb);
+        _mm256_store_ps(c + i, vc);
+    }
+}
+            </div>
+
+            <h3>Profiling Tools</h3>
+            <ul>
+                <li><strong>perf:</strong> Linux performance profiler</li>
+                <li><strong>Valgrind/Callgrind:</strong> Cache and branch prediction analysis</li>
+                <li><strong>Intel VTune:</strong> Comprehensive performance analysis</li>
+                <li><strong>Google Benchmark:</strong> Micro-benchmarking library</li>
+            </ul>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

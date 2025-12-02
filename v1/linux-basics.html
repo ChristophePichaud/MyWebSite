@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Development Basics | Developer Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #333333;
+            color: #fcc624;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #333333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fcc624;
+        }
+
+        .content h3 {
+            color: #323130;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            color: #605e5c;
+        }
+
+        .content ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+            color: #605e5c;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #333333;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #fcc624;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🐧 Linux Development Basics</h1>
+        <p>Get started with Linux development, shell scripting, and essential command-line tools.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>Introduction to Linux Development</h2>
+            <p>Linux provides a powerful and flexible environment for software development. Whether you're building system tools, web servers, or desktop applications, understanding Linux fundamentals is essential.</p>
+
+            <h3>Essential Commands</h3>
+            <div class="code-block">
+# Navigation
+pwd                     # Print working directory
+cd /path/to/dir        # Change directory
+ls -la                 # List files with details
+
+# File operations
+cp source dest         # Copy files
+mv source dest         # Move/rename files
+rm file                # Remove file
+mkdir -p dir/subdir    # Create directories
+
+# Text processing
+cat file               # Display file content
+grep pattern file      # Search in file
+sed 's/old/new/g'      # Stream editor
+awk '{print $1}'       # Text processing
+
+# Process management
+ps aux                 # List processes
+top                    # Interactive process viewer
+kill -9 PID            # Terminate process
+            </div>
+
+            <h3>Shell Scripting</h3>
+            <p>Bash scripts automate repetitive tasks:</p>
+            <div class="code-block">
+#!/bin/bash
+
+# Variables
+NAME="World"
+echo "Hello, $NAME!"
+
+# Conditionals
+if [ -f "$1" ]; then
+    echo "File exists: $1"
+else
+    echo "File not found: $1"
+fi
+
+# Loops
+for file in *.txt; do
+    echo "Processing $file"
+    wc -l "$file"
+done
+
+# Functions
+greet() {
+    local name=$1
+    echo "Welcome, $name!"
+}
+greet "Developer"
+
+# Command substitution
+TODAY=$(date +%Y-%m-%d)
+echo "Today is $TODAY"
+            </div>
+
+            <h3>Development Tools</h3>
+            <ul>
+                <li><strong>GCC/G++:</strong> GNU Compiler Collection</li>
+                <li><strong>GDB:</strong> GNU Debugger</li>
+                <li><strong>Make:</strong> Build automation</li>
+                <li><strong>Git:</strong> Version control</li>
+                <li><strong>Vim/Neovim:</strong> Text editors</li>
+            </ul>
+
+            <h3>Building C/C++ on Linux</h3>
+            <div class="code-block">
+# Compile a simple program
+gcc -o hello hello.c
+g++ -std=c++20 -o app main.cpp
+
+# With warnings and debugging
+g++ -Wall -Wextra -g -O2 -o app main.cpp
+
+# Using Make
+make
+make clean
+make install
+
+# Using CMake
+mkdir build && cd build
+cmake ..
+cmake --build .
+            </div>
+
+            <h3>Package Management</h3>
+            <div class="code-block">
+# Debian/Ubuntu (apt)
+sudo apt update
+sudo apt install build-essential
+sudo apt search package-name
+
+# Fedora/RHEL (dnf)
+sudo dnf install gcc-c++
+sudo dnf search package-name
+
+# Arch Linux (pacman)
+sudo pacman -S base-devel
+pacman -Ss package-name
+            </div>
+
+            <h3>Permissions</h3>
+            <div class="code-block">
+# Change permissions
+chmod 755 script.sh    # rwxr-xr-x
+chmod +x script.sh     # Add execute permission
+chmod u+w file         # Add write for user
+
+# Change ownership
+chown user:group file
+sudo chown -R user:user directory/
+            </div>
+
+            <a href="index.html" class="back-link">← Back to Developer Resources</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+</body>
+</html>

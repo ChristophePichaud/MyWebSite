@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Resources | Christophe Pichaud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            color: #323130;
+        }
+
+        .header {
+            background-color: #0078d4;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid #0078d4;
+            background-color: white;
+            color: #0078d4;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #0078d4;
+            color: white;
+        }
+
+        .tab-btn.active {
+            background-color: #0078d4;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #e1dfdd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-image .placeholder-icon {
+            font-size: 4rem;
+            color: #605e5c;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: #0078d4;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: #605e5c;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Tab-specific colors */
+        .azure .card-content h3 { color: #0078d4; }
+        .dotnet .card-content h3 { color: #512bd4; }
+        .cpp .card-content h3 { color: #00599c; }
+        .windows .card-content h3 { color: #0078d4; }
+        .linux .card-content h3 { color: #fcc624; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #323130;
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Developer Resources</h1>
+        <p>Explore resources for Azure, .NET, C++, Windows, and Linux development</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="azure">Azure</button>
+            <button class="tab-btn" data-tab="dotnet">.NET</button>
+            <button class="tab-btn" data-tab="cpp">C++</button>
+            <button class="tab-btn" data-tab="windows">Windows</button>
+            <button class="tab-btn" data-tab="linux">Linux</button>
+        </div>
+
+        <!-- Azure Tab -->
+        <div id="azure" class="tab-content azure active">
+            <div class="cards-grid">
+                <a href="azure-getting-started.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">☁️</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Getting Started with Azure</h3>
+                        <p>Learn the fundamentals of Microsoft Azure cloud services and start building scalable applications today.</p>
+                    </div>
+                </a>
+                <a href="azure-devops.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">⚙️</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Azure DevOps</h3>
+                        <p>Master CI/CD pipelines, version control, and project management with Azure DevOps services.</p>
+                    </div>
+                </a>
+                <a href="azure-ai.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🤖</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Azure AI Services</h3>
+                        <p>Build intelligent applications with Azure Cognitive Services, Machine Learning, and OpenAI integration.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- .NET Tab -->
+        <div id="dotnet" class="tab-content dotnet">
+            <div class="cards-grid">
+                <a href="dotnet-fundamentals.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🔷</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>.NET Fundamentals</h3>
+                        <p>Master the basics of .NET development, from C# syntax to building your first application.</p>
+                    </div>
+                </a>
+                <a href="dotnet-aspnet.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🌐</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>ASP.NET Core</h3>
+                        <p>Build modern web applications and APIs using the powerful ASP.NET Core framework.</p>
+                    </div>
+                </a>
+                <a href="dotnet-maui.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">📱</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>.NET MAUI</h3>
+                        <p>Create cross-platform native applications for iOS, Android, macOS, and Windows with .NET MAUI.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- C++ Tab -->
+        <div id="cpp" class="tab-content cpp">
+            <div class="cards-grid">
+                <a href="cpp-modern.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">⚡</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Modern C++ (C++17/20/23)</h3>
+                        <p>Explore the latest features of modern C++ including ranges, concepts, modules, and coroutines.</p>
+                    </div>
+                </a>
+                <a href="cpp-stl.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">📚</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>STL and Algorithms</h3>
+                        <p>Master the Standard Template Library, containers, iterators, and powerful algorithms.</p>
+                    </div>
+                </a>
+                <a href="cpp-performance.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🚀</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Performance Optimization</h3>
+                        <p>Learn advanced techniques for writing high-performance C++ code with memory and CPU optimization.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Windows Tab -->
+        <div id="windows" class="tab-content windows">
+            <div class="cards-grid">
+                <a href="windows-win32.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🪟</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Win32 API Development</h3>
+                        <p>Build native Windows applications using the powerful Win32 API and Windows SDK.</p>
+                    </div>
+                </a>
+                <a href="windows-mfc.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🎨</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>MFC Applications</h3>
+                        <p>Create rich desktop applications with Microsoft Foundation Classes and modern UI features.</p>
+                    </div>
+                </a>
+                <a href="windows-uwp.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">📦</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>UWP and WinUI</h3>
+                        <p>Develop modern Windows apps with Universal Windows Platform and WinUI 3 framework.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Linux Tab -->
+        <div id="linux" class="tab-content linux">
+            <div class="cards-grid">
+                <a href="linux-basics.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🐧</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Linux Development Basics</h3>
+                        <p>Get started with Linux development, shell scripting, and essential command-line tools.</p>
+                    </div>
+                </a>
+                <a href="linux-systemd.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🔧</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>System Programming</h3>
+                        <p>Master Linux system programming with systemd, daemons, and kernel interactions.</p>
+                    </div>
+                </a>
+                <a href="linux-containers.html" class="card">
+                    <div class="card-image">
+                        <span class="placeholder-icon">🐳</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Containers and Docker</h3>
+                        <p>Learn containerization with Docker and Kubernetes for modern application deployment.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <a href="../index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <footer>
+        <p>© 2025 Christophe Pichaud | <a href="https://github.com/ChristophePichaud">GitHub</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
