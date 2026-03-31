@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Papa Piche Président 2027 — Le règne du Canard</title>
+  <meta name="description" content="Papa Piche Président 2027 : satire solennelle, cérémonies DevOps et absurdité assumée." />
+  <style>
+    :root{
+      --bg:#0e0f13;
+      --ink:#f7f3e8;
+      --accent:#ff2f5b;
+      --gold:#f0c75e;
+      --duck:#3ad7ff;
+      --shadow:rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{background:var(--bg);color:var(--ink);margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif}
+    a{color:var(--duck);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      position:relative;
+      padding:4rem 1.5rem 3rem;
+      text-align:center;
+      background:
+        radial-gradient(1200px 600px at 80% -200px, rgba(255,47,91,.12), transparent 60%),
+        radial-gradient(1200px 600px at 20% -240px, rgba(58,215,255,.12), transparent 60%);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .crest{
+      display:inline-grid;
+      grid-template-columns:1fr 1fr;
+      gap:.5rem;
+      place-items:center;
+      margin-bottom:1rem;
+      filter:drop-shadow(0 6px 24px var(--shadow));
+    }
+    .badge{
+      width:92px;height:92px;border-radius:50%;
+      background:conic-gradient(from 210deg, var(--gold), var(--accent), var(--duck), var(--gold));
+      display:grid;place-items:center;
+      border:3px solid rgba(255,255,255,.15);
+      position:relative;
+      overflow:hidden;
+    }
+    .badge::after{
+      content:"";
+      position:absolute;inset:0;
+      background:radial-gradient(60px 40px at 40% 35%, rgba(255,255,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .badge span{font-size:2.2rem}
+    .title{
+      font-size:clamp(1.8rem, 3.2vw, 3rem);
+      line-height:1.05;
+      margin:.25rem 0 .75rem;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      font-size:clamp(1rem, 2vw, 1.3rem);
+      color:rgba(255,255,255,.8);
+    }
+    .cta{
+      display:inline-flex;gap:.75rem;align-items:center;justify-content:center;
+      margin-top:1.25rem;
+    }
+    .btn{
+      background:linear-gradient(180deg, var(--accent), #c51f40);
+      color:white;border:none;border-radius:999px;padding:.85rem 1.25rem;
+      font-weight:700;box-shadow:0 10px 24px rgba(255,47,91,.3);
+      cursor:pointer;transition:transform .06s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn.alt{
+      background:linear-gradient(180deg, var(--duck), #1ea8c7);
+      box-shadow:0 10px 24px rgba(58,215,255,.25);
+    }
+    main{padding:2rem 1.25rem;max-width:1100px;margin:0 auto}
+    section{margin:2rem 0;padding:1.25rem;border:1px solid rgba(255,255,255,.06);border-radius:16px;background:rgba(255,255,255,.02)}
+    h2{font-size:1.4rem;margin:.25rem 0 1rem}
+    .grid{
+      display:grid;gap:1rem;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card{
+      padding:1rem;border-radius:14px;border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      box-shadow:0 6px 16px var(--shadow);
+    }
+    .card h3{margin:.25rem 0 .5rem;font-size:1.1rem}
+    .tag{
+      display:inline-block;margin:.25rem .25rem 0 0;padding:.35rem .6rem;
+      border-radius:999px;border:1px solid rgba(255,255,255,.12);
+      font-size:.8rem;color:rgba(255,255,255,.85);
+      background:rgba(255,255,255,.03);
+    }
+    .decree{
+      display:grid;gap:.75rem;grid-template-columns:1fr auto;align-items:start
+    }
+    .decree textarea{
+      width:100%;min-height:110px;padding:.75rem;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);
+      color:var(--ink);resize:vertical
+    }
+    .decree .btn{height:42px}
+    .log{
+      margin-top:.75rem;padding:.75rem;border-radius:12px;
+      border:1px dashed rgba(255,255,255,.18);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:.92rem;background:rgba(0,0,0,.25)
+    }
+    .manifesto li{margin:.4rem 0}
+    footer{
+      padding:2rem 1.25rem;margin-top:2rem;text-align:center;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:rgba(255,255,255,.7)
+    }
+    .ribbon{
+      position:fixed;right:-40px;top:18px;
+      transform:rotate(40deg);
+      background:linear-gradient(90deg, var(--gold), var(--duck));
+      color:#111;font-weight:800;letter-spacing:.2px;
+      padding:.35rem 2rem;box-shadow:0 6px 16px var(--shadow);
+    }
+    .mapline{
+      border-left:4px solid rgba(240,199,94,.7);padding-left:.75rem;margin-left:.25rem
+    }
+    @media (prefers-reduced-motion: no-preference){
+      .glow{
+        animation:glow 2.8s ease-in-out infinite;
+        text-shadow:0 0 0 transparent;
+      }
+      @keyframes glow{
+        0%,100%{text-shadow:0 0 12px rgba(255,47,91,.35)}
+        50%{text-shadow:0 0 18px rgba(58,215,255,.35)}
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ribbon" aria-hidden="true">ÉDITION CÉRÉMONIALE</div>
+
+  <header>
+    <div class="crest" aria-label="Blason présidentiel du Canard">
+      <div class="badge" title="Totem du Petit Canard">
+        <span>🦆</span>
+      </div>
+      <div>
+        <div class="title">Papa Piche Président 2027</div>
+        <div class="subtitle">Absurdie solennelle, doc sacrée, pipelines souverains. Moi, président, je promulgue des déploiements.</div>
+        <div class="cta">
+          <button class="btn" id="btnInvest">Cérémonie d’investiture</button>
+          <button class="btn alt" id="btnSticker">Recevoir le sticker du Canard</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+	<img src="PapaPicheDonC.jpeg" >
+	<br><br>
+
+    <section aria-labelledby="slogan">
+      <h2 id="slogan">Slogan officiel</h2>
+      <p class="glow">“La vérité si YAML.”</p>
+      <p class="mapline">À chaque commit, une bulle d’air. À chaque release, une vague de sérénité. Le Canard reste calme, vous aussi.</p>
+    </section>
+
+    <section aria-labelledby="reformes">
+      <h2 id="reformes">Réformes présidentielles essentielles</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Décret n°001 — Merge sans peur</h3>
+          <p>Tout merge se fait à la lueur du cigare du commit. En cas d’hésitation, on lit la doc comme une prière.</p>
+          <span class="tag">Ceremonial</span><span class="tag">DevOps</span>
+        </article>
+        <article class="card">
+          <h3>Décret n°017 — Permissions fantômes</h3>
+          <p>Les rôles invisibles sont convoqués au Conseil des Ducks. S’ils persistent, ils sont transformés en stickers motivants.</p>
+          <span class="tag">Sécurité</span><span class="tag">Satire</span>
+        </article>
+        <article class="card">
+          <h3>Décret n°042 — Staging slot sacré</h3>
+          <p>Chaque slot reçoit l’onction de la frise murale. Les swaps deviennent processions, les rollbacks des contes d’avertissement.</p>
+          <span class="tag">Pipelines</span><span class="tag">Rituel</span>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="manifeste">
+      <h2 id="manifeste">Manifeste du Régime du Canard</h2>
+      <ul class="manifesto">
+        <li><strong>Doc avant drame:</strong> la fiche de survie précède la panique, toujours.</li>
+        <li><strong>Logs comme légende:</strong> on raconte nos erreurs en ballades héroïques.</li>
+        <li><strong>Humour respectueux:</strong> satire sans humiliation, communion avant l’égo.</li>
+        <li><strong>Totems vivants:</strong> stickers, badges, frises murales — la beauté apaise le chaos.</li>
+        <li><strong>Release ritualisée:</strong> café, quack, checklist, applaudissements. Puis canard.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="decretes">
+      <h2 id="decretes">Générateur de décrets absurdes</h2>
+      <div class="decree">
+        <textarea id="decreeInput" placeholder="Ex: Interdire les réunions sans agenda et y remplacer par une cérémonie de 7 minutes."></textarea>
+        <button class="btn alt" id="btnDecree">Promulguer</button>
+      </div>
+      <div class="log" id="decreeLog" aria-live="polite">Journal des décrets : en attente de votre absurdité prescriptive…</div>
+    </section>
+
+    <section aria-labelledby="programme">
+      <h2 id="programme">Programme en 7 points</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>1. Cigare du commit</h3>
+          <p>On l’allume pour célébrer, jamais pour masquer. La fumée raconte l’histoire du build.</p>
+        </article>
+        <article class="card">
+          <h3>2. Petit Canard Totem</h3>
+          <p>Symbole de résilience : flotter droit, même quand le backlog fait des vagues.</p>
+        </article>
+        <article class="card">
+          <h3>3. Frise murale des incidents</h3>
+          <p>Chaque outage devient une saga épique, illustrée et partagée, pour ne plus jamais subir en silence.</p>
+        </article>
+        <article class="card">
+          <h3>4. Domain name totem</h3>
+          <p>Un nom qui chante le rituel. Exemple : canard.dev, yamlvif.fr, pipeline-ceremonial.eu.</p>
+        </article>
+        <article class="card">
+          <h3>5. Fiches de survie</h3>
+          <p>Concises, drôles, efficaces. De la documentation comme un art martial doux.</p>
+        </article>
+        <article class="card">
+          <h3>6. Chœur des logs</h3>
+          <p>En fin de sprint, lecture chorale des logs marquants. Applaudissements obligatoires.</p>
+        </article>
+        <article class="card">
+          <h3>7. Droit à la sieste DevOps</h3>
+          <p>Après chaque release réussie, 11 minutes de silence flottant. Le Canard valide.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="stickers">
+      <h2 id="stickers">Stickers et insignes</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>“Merge sans peur”</h3>
+          <p>Fond accent rouge, canard bleu lumineux. À coller sur les laptops des bravoureux.</p>
+        </article>
+        <article class="card">
+          <h3>“La vérité si YAML”</h3>
+          <p>Ruban doré, lignes de config en filigrane. Juré, craché, documenté.</p>
+        </article>
+        <article class="card">
+          <h3>“Quack & Deploy”</h3>
+          <p>Badge circulaire, pipeline stylisé. Le cri du build qui passe.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Papa Piche — Présidence du Petit Canard. Tous droits ritualisés.</p>
+    <p>Besoin d’un artefact personnalisé ? Écrivez au Conseil des Ducks : <a href="mailto:canard@papa-piche-2027.fr">canard@papa-piche-2027.fr</a></p>
+  </footer>
+
+  <script>
+    // Investiture pop
+    const btnInvest = document.getElementById('btnInvest');
+    btnInvest.addEventListener('click', ()=>{
+      alert('Par la puissance du Totem, vous êtes investi. Quack solennel. 🎖️');
+    });
+
+    // Sticker pop
+    const btnSticker = document.getElementById('btnSticker');
+    btnSticker.addEventListener('click', ()=>{
+      alert('Sticker “La vérité si YAML” réservé. Il arrive par vol de canard express. 📨');
+    });
+
+    // Décret generator
+    const ideas = [
+      'Toute réunion sans ordre du jour est remplacée par une liturgie de 7 minutes.',
+      'Les variables non nommées reçoivent une identité et une biographie.',
+      'Chaque rollback est suivi d’une ode aux logs et d’une sieste réparatrice.',
+      'Les permissions fantômes sont baptisées puis exorcisées via checklist.',
+      'Tout build passe par la bénédiction du Cigare du Commit (virtuel).',
+      'On ne panic jamais sans consulter la fiche de survie officielle.',
+      'Chaque staging slot se voit offrir un sticker de bravoure.'
+    ];
+    const input = document.getElementById('decreeInput');
+    const log = document.getElementById('decreeLog');
+    document.getElementById('btnDecree').addEventListener('click', ()=>{
+      const text = (input.value || '').trim();
+      const pick = ideas[Math.floor(Math.random()*ideas.length)];
+      const out = text ? text : pick;
+      const stamp = new Date().toLocaleString();
+      log.textContent = `Décret promulgué (${stamp}) → ${out}`;
+      input.value = '';
+    });
+  </script>
+</body>
+</html>

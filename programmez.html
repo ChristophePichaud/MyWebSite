@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magazine Papers — Carousel</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121826;
+      --text: #e6edf3;
+      --muted: #9aa7b2;
+      --border: rgba(230, 237, 243, 0.14);
+      --focus: #7aa2ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .carousel {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    button.nav {
+      appearance: none;
+      border: 1px solid rgba(230, 237, 243, 0.22);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    button.nav:hover { background: rgba(230, 237, 243, 0.06); }
+    button.nav:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    button.nav:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .viewport {
+      min-width: 0;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      min-height: 360px;
+    }
+
+    .images {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px;
+      overflow: auto;
+      min-height: 280px;
+    }
+
+    /* Images are shown at natural size; container can scroll if needed. */
+    .paperImg {
+      max-width: none;
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      flex: 0 0 auto;
+    }
+
+    .missing {
+      color: var(--muted);
+      border: 1px dashed rgba(230, 237, 243, 0.22);
+      border-radius: 10px;
+      padding: 18px;
+      min-width: 220px;
+      text-align: center;
+    }
+
+    .title {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      display: grid;
+      gap: 8px;
+    }
+
+    .paperTitle {
+      font-weight: 650;
+      line-height: 1.25;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .paperLabel {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .actions a {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid rgba(230, 237, 243, 0.22);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .actions a:hover { background: rgba(230, 237, 243, 0.06); }
+    .actions a:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+    @media (max-width: 760px) {
+      .carousel { grid-template-columns: 1fr; }
+      button.nav { width: 100%; }
+      .images { flex-direction: column; }
+      .missing { min-width: unset; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Magazine Papers</h1>
+    <p>Use the buttons to browse. Each card shows the cover and first page side by side (original size).</p>
+
+    <div class="carousel" aria-label="Magazine paper carousel">
+      <button class="nav" id="prevBtn" type="button">Prev</button>
+      <div class="viewport" id="viewport"></div>
+      <button class="nav" id="nextBtn" type="button">Next</button>
+    </div>
+  </div>
+
+  <script>
+    // Files discovered in New-Web_Site-v2/Images
+    // Prefix rules:
+    // - First page images start with "PageOne"
+    // - Cover images start with "programmez" (case-insensitive)
+    const imageFiles = [
+      "PageOne143.jpg",
+      "PageOne148.jpg",
+      "PageOne149.jpg",
+      "PageOne150.jpg",
+      "PageOne153.jpg",
+      "PageOne156.jpg",
+      "PageOne160.jpg",
+      "PageOne173.jpg",
+      "PageOne174.jpg",
+      "PageOne187.jpg",
+      "PageOne188.jpg",
+      "PageOne189.jpg",
+      "PageOne190.jpg",
+      "PageOne191.jpg",
+      "PageOne194.jpg",
+      "PageOne195.jpg",
+      "PageOne199.jpg",
+      "PageOne200.jpg",
+      "PageOne202.jpg",
+      "PageOne211.png",
+      "PageOne212.PNG",
+      "PageOne213.PNG",
+      "PageOne214.PNG",
+      "PageOne215.PNG",
+      "PageOne216.PNG",
+      "PageOne217.PNG",
+      "PageOne218.PNG",
+      "PageOne219.png",
+      "PageOne220.PNG",
+      "PageOne221.png",
+      "PageOne222.png",
+      "PageOne223.png",
+      "PageOne224.PNG",
+      "PageOne225.PNG",
+      "PageOne226.PNG",
+      "PageOne227.PNG",
+      "PageOne228.PNG",
+      "PageOne229.PNG",
+      "PageOne230_1.JPG",
+      "PageOne230_2.JPG",
+      "PageOne231.png",
+      "PageOne232.png",
+      "PageOne233.PNG",
+      "PageOne234.PNG",
+      "PageOne237.PNG",
+      "PageOne238.png",
+      "PageOne239.JPG",
+      "PageOne240.JPG",
+      "PageOne241.JPG",
+      "programmez143.jpg",
+      "programmez148.jpg",
+      "programmez149.jpg",
+      "programmez150.jpg",
+      "programmez153.jpg",
+      "programmez156.jpg",
+      "programmez160.jpg",
+      "programmez173.jpg",
+      "programmez174.jpg",
+      "programmez187.jpg",
+      "programmez188.jpg",
+      "programmez189.jpg",
+      "programmez190.jpg",
+      "programmez191.jpg",
+      "programmez194.jpg",
+      "programmez195.jpg",
+      "programmez199.jpg",
+      "programmez200.jpg",
+      "programmez202.jpg",
+      "programmez211.PNG",
+      "programmez212.PNG",
+      "programmez213.PNG",
+      "programmez214.PNG",
+      "programmez215.PNG",
+      "programmez216.PNG",
+      "programmez217.PNG",
+      "programmez218.PNG",
+      "programmez219.PNG",
+      "programmez220.PNG",
+      "programmez221.PNG",
+      "programmez222.PNG",
+      "programmez223.PNG",
+      "programmez224.PNG",
+      "programmez225.PNG",
+      "Programmez226.PNG",
+      "programmez227.PNG",
+      "programmez228.PNG",
+      "programmez229.jpg",
+      "programmez230.JPG",
+      "programmez231.png",
+      "programmez232.PNG",
+      "programmez233.PNG",
+      "programmez234.PNG"
+    ];
+
+    function getPairKey(filename) {
+      // Strip extension and prefix, then try to extract the main numeric id.
+      const base = filename.replace(/\.[^.]+$/, "");
+      const lower = base.toLowerCase();
+      const withoutPrefix = lower
+        .replace(/^pageone/, "")
+        .replace(/^programmez/, "")
+        .replace(/^[-_\s]+/, "")
+        .trim();
+
+      // Pair files like PageOne230_1 with programmez230
+      const match = withoutPrefix.match(/^(\d+)/);
+      return match ? match[1] : withoutPrefix;
+    }
+
+    function srcFor(filename) {
+      return "Images/" + encodeURIComponent(filename).replace(/%2F/g, "/");
+    }
+
+    function keySort(a, b) {
+      const na = Number(a.replace(/[^0-9.]/g, ""));
+      const nb = Number(b.replace(/[^0-9.]/g, ""));
+      const bothNumeric = Number.isFinite(na) && Number.isFinite(nb) && a.match(/\d/) && b.match(/\d/);
+      if (bothNumeric && na !== nb) return na - nb;
+      return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+    }
+
+    // Build maps for pairing
+    const pageOneByKey = new Map(); // key -> [files...]
+    const coverByKey = new Map();   // key -> file
+
+    for (const file of imageFiles) {
+      if (/^pageone/i.test(file)) {
+        const key = getPairKey(file);
+        const list = pageOneByKey.get(key) || [];
+        list.push(file);
+        pageOneByKey.set(key, list);
+      } else if (/^programmez/i.test(file)) {
+        const key = getPairKey(file);
+        coverByKey.set(key, file);
+      }
+    }
+
+    const keys = Array.from(new Set([...pageOneByKey.keys(), ...coverByKey.keys()]));
+
+    // Build paper list. If multiple PageOne variants exist (e.g., 230_1, 230_2), pick the first alphabetically.
+    const papers = keys
+      .map((key) => {
+        const cover = coverByKey.get(key) || null;
+        const pageOnes = (pageOneByKey.get(key) || []).slice().sort((x, y) => x.localeCompare(y));
+        const pageOne = pageOnes.length ? pageOnes[0] : null;
+
+        return {
+          key,
+          title: key ? `Programmez ${String(key).toUpperCase()}` : "Programmez",
+          cover,
+          pageOne
+        };
+      })
+      .sort((a, b) => keySort(a.key, b.key));
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const viewport = document.getElementById("viewport");
+
+    let index = 0;
+
+    function makeImage(filename, alt) {
+      const img = document.createElement("img");
+      img.className = "paperImg";
+      img.alt = alt;
+      img.src = srcFor(filename);
+      return img;
+    }
+
+    function makeMissing(label) {
+      const div = document.createElement("div");
+      div.className = "missing";
+      div.textContent = `Missing ${label} image`;
+      return div;
+    }
+
+    function render() {
+      viewport.innerHTML = "";
+
+      if (!papers.length) {
+        const empty = document.createElement("div");
+        empty.className = "missing";
+        empty.textContent = "No images found.";
+        viewport.appendChild(empty);
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+
+      const paper = papers[index];
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const images = document.createElement("div");
+      images.className = "images";
+
+      if (paper.cover) images.appendChild(makeImage(paper.cover, `${paper.title} cover`));
+      else images.appendChild(makeMissing("cover"));
+
+      if (paper.pageOne) images.appendChild(makeImage(paper.pageOne, `${paper.title} first page`));
+      else images.appendChild(makeMissing("first page"));
+
+      const title = document.createElement("div");
+      title.className = "title";
+
+      const paperTitle = document.createElement("div");
+      paperTitle.className = "paperTitle";
+      paperTitle.textContent = paper.title;
+
+      const paperLabel = document.createElement("div");
+      paperLabel.className = "paperLabel";
+      paperLabel.textContent = "(Add a longer title/description here — this can wrap on multiple lines.)";
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const pdfLink = document.createElement("a");
+      const pdfId = (paper.key || "REPLACE_ME");
+      pdfLink.href = `PDF/${encodeURIComponent(pdfId)}.pdf`;
+      pdfLink.textContent = "Download PDF";
+      actions.appendChild(pdfLink);
+
+      title.appendChild(paperTitle);
+      title.appendChild(paperLabel);
+      title.appendChild(actions);
+
+      card.appendChild(images);
+      card.appendChild(title);
+      viewport.appendChild(card);
+
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= (papers.length - 1);
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (index > 0) {
+        index -= 1;
+        render();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (index < papers.length - 1) {
+        index += 1;
+        render();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

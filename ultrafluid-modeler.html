@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>UltraFluid Modeler - Présentation technique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="UltraFluid Modeler - Environnement avancé de modélisation de données fluides structurées, par Christophe Pichaud.">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #fafafa;
+        }
+        .page-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem 1.5rem;
+            background-color: #ffffff;
+        }
+        h1, h2, h3 {
+            font-weight: 600;
+            color: #111;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+        h2 {
+            margin-top: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            margin-top: 1.5rem;
+        }
+        p {
+            margin: 0.4rem 0 0.8rem 0;
+        }
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            background-color: #eef4ff;
+            color: #27408b;
+            border: 1px solid #d5e0ff;
+            margin-right: 0.4rem;
+            margin-top: 0.2rem;
+        }
+        .tag-list {
+            margin: 0.6rem 0 1.2rem 0;
+        }
+        ul {
+            margin: 0.4rem 0 0.8rem 1.2rem;
+        }
+        li {
+            margin-bottom: 0.25rem;
+        }
+        .section-intro {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .code-inline {
+            font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: #f5f5f5;
+            padding: 0.1rem 0.25rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .module-card {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 0.8rem 1rem;
+            background-color: #fcfcfc;
+        }
+        .module-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .module-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.06em;
+        }
+        .highlight-box {
+            border-left: 3px solid #27408b;
+            padding-left: 0.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        .link-block {
+            margin-top: 1rem;
+            padding: 0.8rem 1rem;
+            background-color: #f5f7ff;
+            border-radius: 6px;
+            border: 1px solid #e0e4ff;
+        }
+        .link-block a {
+            color: #27408b;
+            text-decoration: none;
+        }
+        .link-block a:hover {
+            text-decoration: underline;
+        }
+        .small-text {
+            font-size: 0.85rem;
+            color: #777;
+        }
+        .gallery-placeholder {
+            border: 1px dashed #ccc;
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+            background-color: #fcfcfc;
+        }
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 1.5rem 1rem 2.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-container">
+
+    <h1>UltraFluid Modeler</h1>
+    <div class="subtitle">
+        Environnement avancé de modélisation de données fluides structurées  
+        <br>par <strong>Christophe Pichaud</strong>
+    </div>
+
+    <img src="Images/MyApps/UltraFluidModeler/UFM1.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+    <img src="Images/MyApps/UltraFluidModeler/UFM2.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+    <img src="Images/MyApps/UltraFluidModeler/UFM3.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+
+    <div class="tag-list">
+        <span class="badge">C++ / Natif</span>
+        <span class="badge">Win32 / MFC</span>
+        <span class="badge">SQLite</span>
+        <span class="badge">Moteur de rendu personnalisé</span>
+    </div>
+
+    <p>
+        UltraFluid Modeler est une application C++ native conçue pour modéliser, visualiser et manipuler
+        des représentations de données « fluides » et structurées. Elle propose une architecture modulaire,
+        un moteur de rendu haute performance et une couche de persistance robuste construite sur SQLite.
+        Le projet sert à la fois d’outil de modélisation de niveau professionnel et de vitrine technique
+        d’ingénierie Win32/MFC avancée.
+    </p>
+
+    <div class="highlight-box">
+        <p class="small-text">
+            <strong>Public cible&nbsp;:</strong> développeurs et utilisateurs techniques qui souhaitent comprendre
+            l’architecture interne, les points d’extension et les choix de conception d’UltraFluid Modeler.
+        </p>
+    </div>
+
+    <!-- Architecture principale -->
+    <h2>Architecture principale</h2>
+    <p class="section-intro">
+        L’application est structurée en modules bien définis, avec une séparation claire entre le modèle,
+        le rendu, la persistance et les composants d’interface utilisateur.
+    </p>
+
+    <div class="module-grid">
+        <div class="module-card">
+            <div class="module-label">Module</div>
+            <div class="module-title">UFMCore</div>
+            <p>
+                Définit le modèle logique et les structures de données principales, y compris le système
+                de propriétés, le modèle d’objets hiérarchique, la sérialisation et les utilitaires de validation.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Module</div>
+            <div class="module-title">UFMDrawing</div>
+            <p>
+                Implémente le moteur de rendu, la logique d’interaction et les primitives de dessin 2D utilisées
+                pour visualiser les modèles en temps réel.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Module</div>
+            <div class="module-title">SQLiteWrapper</div>
+            <p>
+                Fournit une abstraction légère au-dessus de SQLite, gérant le schéma, les requêtes préparées
+                et l’accès aux données de manière typée.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Module</div>
+            <div class="module-title">SharedViews</div>
+            <p>
+                Contient des composants UI réutilisables comme les éditeurs de propriétés, les vues arborescentes
+                et les boîtes de dialogue, partagés dans l’ensemble de l’application.
+            </p>
+        </div>
+    </div>
+
+    <h3>UFMCore – modèle logique et structures de données</h3>
+    <p>
+        Le module <span class="code-inline">UFMCore</span> définit les abstractions fondamentales utilisées dans l’application&nbsp;:
+    </p>
+    <ul>
+        <li>Système de propriétés typées avec métadonnées et formats personnalisables.</li>
+        <li>Modèle d’objets hiérarchique (conteneurs, groupes, nœuds) pour des données structurées.</li>
+        <li>Logique de sérialisation et désérialisation pour la persistance complète du modèle.</li>
+        <li>Définitions de formats permettant d’étendre les types de propriétés.</li>
+        <li>Utilitaires de gestion des erreurs et de validation.</li>
+    </ul>
+    <p>
+        Ce module est la source de vérité pour toutes les opérations liées au modèle et reste délibérément
+        découplé des couches de rendu et d’interface.
+    </p>
+
+    <h3>UFMDrawing – couche de rendu et d’interaction</h3>
+    <p>
+        Le module <span class="code-inline">UFMDrawing</span> implémente le moteur graphique et la logique d’interaction&nbsp;:
+    </p>
+    <ul>
+        <li>Routines de rendu 2D optimisées pour les formes, connecteurs et superpositions.</li>
+        <li>Contexte de dessin personnalisé qui abstrait les opérations Win32 GDI bas niveau.</li>
+        <li>Gestion du zoom, du déplacement (pan) et de la grille pour naviguer dans des modèles complexes.</li>
+        <li>Logique de hit‑testing et d’interaction pour la sélection et la manipulation des objets.</li>
+        <li>Stratégies de double buffering pour réduire le scintillement et améliorer la réactivité.</li>
+    </ul>
+    <p>
+        De nouveaux types d’objets rendus peuvent être introduits sans couplage fort avec le reste de l’UI,
+        ce qui fait de cette couche un point d’extension propre.
+    </p>
+
+    <h3>SQLiteWrapper – couche de persistance</h3>
+    <p>
+        Le module <span class="code-inline">SQLiteWrapper</span> fournit une abstraction fine mais robuste au-dessus de SQLite&nbsp;:
+    </p>
+    <ul>
+        <li>Création et évolution du schéma de base de données.</li>
+        <li>Utilitaires pour préparer, lier et exécuter les requêtes de façon sûre.</li>
+        <li>Wrappers typés pour réduire le code répétitif et les erreurs à l’exécution.</li>
+        <li>Gestion automatique des ressources (statements, connexions).</li>
+        <li>Intégration avec la sérialisation de <span class="code-inline">UFMCore</span> pour persister l’état du modèle.</li>
+    </ul>
+
+    <h3>SharedViews – composants d’interface réutilisables</h3>
+    <p>
+        Le module <span class="code-inline">SharedViews</span> regroupe les éléments d’interface communs&nbsp;:
+    </p>
+    <ul>
+        <li>Grilles et éditeurs de propriétés pour inspecter et modifier les données du modèle.</li>
+        <li>Vues arborescentes et listes pour la navigation hiérarchique.</li>
+        <li>Boîtes de dialogue et logique d’interaction partagée.</li>
+        <li>Patrons de mise en page et comportements réutilisés sur plusieurs écrans.</li>
+    </ul>
+
+    <h3>Tests – validation et stabilité</h3>
+    <p>
+        La suite de tests se concentre sur la stabilité des composants cœur&nbsp;:
+    </p>
+    <ul>
+        <li>Structures de données centrales et logique du modèle de propriétés.</li>
+        <li>Cohérence de la sérialisation et de la désérialisation.</li>
+        <li>Interactions avec la base de données et intégrité des données.</li>
+    </ul>
+
+    <!-- Interface utilisateur et flux -->
+    <h2>Interface utilisateur et flux de travail</h2>
+    <p>
+        UltraFluid Modeler propose une interface classique basée sur MFC, optimisée pour les utilisateurs avancés.
+        L’accent est mis sur la réactivité, la lisibilité et le contrôle plutôt que sur l’ornement visuel.
+    </p>
+    <ul>
+        <li>Canvas principal de modélisation avec rendu et interaction en temps réel.</li>
+        <li>Panneaux ancrables pour les propriétés, la hiérarchie du modèle et les journaux.</li>
+        <li>Outils contextuels pour éditer, grouper et transformer les objets.</li>
+        <li>Raccourcis clavier pour des itérations rapides.</li>
+        <li>Persistance intégrée pour des opérations de sauvegarde/chargement fluides.</li>
+    </ul>
+
+    <div class="gallery-placeholder">
+        <strong>Zone réservée à la galerie de captures</strong><br>
+        C’est ici que tu peux intégrer ton carrousel existant de captures d’écran d’UltraFluid Modeler
+        (par exemple depuis <span class="code-inline">Images/MyApps/UltraFluidModeler</span>)
+        pour illustrer visuellement la fenêtre principale, les panneaux de propriétés et le canvas de modélisation.
+    </div>
+
+    <!-- Fonctionnalités -->
+    <h2>Fonctionnalités clés pour les développeurs</h2>
+    <p>
+        UltraFluid Modeler est pensé non seulement comme un outil pour l’utilisateur final, mais aussi comme
+        une base de code que les développeurs peuvent explorer, étendre et étudier.
+    </p>
+    <ul>
+        <li>Architecture modulaire avec séparation claire des responsabilités.</li>
+        <li>Couches distinctes pour le modèle, la vue et la persistance.</li>
+        <li>Système de propriétés extensible avec formats et métadonnées personnalisés.</li>
+        <li>Pipeline de rendu haute performance optimisé pour la réactivité.</li>
+        <li>Stockage basé sur SQLite avec schéma simple et surcharge minimale.</li>
+        <li>Implémentation native en C++ pour un contrôle maximal des performances et de la mémoire.</li>
+        <li>Solution structurée de manière à faciliter l’onboarding de nouveaux contributeurs.</li>
+    </ul>
+
+    <!-- Extensibilité -->
+    <h2>Points d’extensibilité</h2>
+    <p>
+        L’architecture d’UltraFluid Modeler encourage des points d’extension bien définis,
+        afin que les nouvelles fonctionnalités restent isolées et maintenables.
+    </p>
+    <ul>
+        <li>Ajout de nouveaux types d’objets rendus dans le moteur de dessin.</li>
+        <li>Définition de formats de propriétés et de types de métadonnées personnalisés.</li>
+        <li>Extension du schéma de sérialisation et de persistance.</li>
+        <li>Implémentation de nouveaux outils de dessin, de sélection ou de transformation.</li>
+        <li>Intégration de sources de données supplémentaires via l’abstraction SQLite.</li>
+    </ul>
+
+    <!-- Pile technologique -->
+    <h2>Pile technologique</h2>
+    <ul>
+        <li><strong>C++</strong> et <strong>C</strong> natifs.</li>
+        <li><strong>Win32 / MFC</strong> pour le framework de l’application desktop.</li>
+        <li><strong>SQLite</strong> pour la persistance locale basée sur fichiers.</li>
+        <li><strong>Scintilla</strong> (intégré) pour les scénarios avancés d’édition de texte et de code.</li>
+        <li>Moteur de rendu 2D personnalisé construit sur les APIs Win32.</li>
+    </ul>
+
+    <!-- Dépôt & liens -->
+    <h2>Dépôt et code source</h2>
+    <div class="link-block">
+        <p>
+            <strong>Dépôt GitHub&nbsp;:</strong><br>
+            <a href="https://github.com/ChristophePichaud/UltraFluidModelerNET" target="_blank" rel="noopener">
+                https://github.com/ChristophePichaud/UltraFluidModelerNET
+            </a>
+        </p>
+        <p class="small-text">
+            Le dépôt contient le code source complet, la structure du projet, ainsi que du contexte supplémentaire
+            sur l’évolution d’UltraFluid Modeler.
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

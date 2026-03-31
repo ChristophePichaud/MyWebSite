@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>VSDemo - Environnement léger de compilation C#</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VSDemo - IDE léger en C++/MFC pour compiler du C# via Roslyn, par Christophe Pichaud.">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #fafafa;
+        }
+        .page-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem 1.5rem;
+            background-color: #ffffff;
+        }
+        h1, h2, h3 {
+            font-weight: 600;
+            color: #111;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+        h2 {
+            margin-top: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            margin-top: 1.5rem;
+        }
+        p {
+            margin: 0.4rem 0 0.8rem 0;
+        }
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            background-color: #eef4ff;
+            color: #27408b;
+            border: 1px solid #d5e0ff;
+            margin-right: 0.4rem;
+            margin-top: 0.2rem;
+        }
+        .tag-list {
+            margin: 0.6rem 0 1.2rem 0;
+        }
+        ul {
+            margin: 0.4rem 0 0.8rem 1.2rem;
+        }
+        li {
+            margin-bottom: 0.25rem;
+        }
+        .section-intro {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .code-inline {
+            font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: #f5f5f5;
+            padding: 0.1rem 0.25rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .module-card {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 0.8rem 1rem;
+            background-color: #fcfcfc;
+        }
+        .module-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .module-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.06em;
+        }
+        .highlight-box {
+            border-left: 3px solid #27408b;
+            padding-left: 0.8rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        .link-block {
+            margin-top: 1rem;
+            padding: 0.8rem 1rem;
+            background-color: #f5f7ff;
+            border-radius: 6px;
+            border: 1px solid #e0e4ff;
+        }
+        .link-block a {
+            color: #27408b;
+            text-decoration: none;
+        }
+        .link-block a:hover {
+            text-decoration: underline;
+        }
+        .small-text {
+            font-size: 0.85rem;
+            color: #777;
+        }
+        .gallery-placeholder {
+            border: 1px dashed #ccc;
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+            background-color: #fcfcfc;
+        }
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 1.5rem 1rem 2.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-container">
+
+    <h1>VSDemo</h1>
+    <div class="subtitle">
+        Environnement léger de compilation C# basé sur Roslyn<br>
+        par <strong>Christophe Pichaud</strong>
+    </div>
+
+    <img src="Images/MyApps/VSDemo/ProjectProperties.png" alt="Logo VSDemo" width="100%" height="100%">
+    <img src="Images/MyApps/VSDemo/VSDemo-BuildOK.png" alt="Logo VSDemo" width="100%" height="100%">
+
+    <div class="tag-list">
+        <span class="badge">C++ / Natif</span>
+        <span class="badge">MFC / Win32</span>
+        <span class="badge">Roslyn (C#)</span>
+        <span class="badge">Scintilla</span>
+        <span class="badge">IDE léger</span>
+    </div>
+
+    <p>
+        VSDemo est un IDE léger développé en C++ avec MFC, pensé à l’origine pour permettre de compiler très
+        simplement du code C# en s’appuyant sur le compilateur Roslyn. L’application combine une interface native,
+        un éditeur de code basé sur Scintilla et l’intégration du compilateur C# pour offrir un environnement de
+        développement minimaliste, rapide et pédagogique.
+    </p>
+
+    <div class="highlight-box">
+        <p class="small-text">
+            <strong>Public cible&nbsp;:</strong> développeurs, étudiants et curieux souhaitant expérimenter la compilation C#
+            via Roslyn, dans un environnement natif minimal, ainsi que les personnes intéressées par la construction
+            d’IDE en C++/MFC.
+        </p>
+    </div>
+
+    <!-- Objectifs et contexte -->
+    <h2>Objectifs et contexte</h2>
+    <p class="section-intro">
+        VSDemo a été conçu comme un environnement simple et accessible pour compiler du C# sans la complexité d’un IDE complet,
+        tout en restant un exemple clair de l’intégration de Roslyn dans une application native.
+    </p>
+    <ul>
+        <li>Offrir un environnement de compilation C# léger et immédiatement utilisable.</li>
+        <li>Démontrer l’intégration de Roslyn dans une application C++/MFC.</li>
+        <li>Proposer un éditeur multi‑documents avec coloration syntaxique.</li>
+        <li>Servir de base d’apprentissage pour la construction d’outils de développement.</li>
+    </ul>
+
+    <!-- Architecture principale -->
+    <h2>Architecture principale</h2>
+    <p class="section-intro">
+        L’application est organisée autour de quelques composants clés&nbsp;: interface MFC, éditeur Scintilla,
+        gestion des projets/fichiers, et orchestration de la compilation via Roslyn.
+    </p>
+
+    <div class="module-grid">
+        <div class="module-card">
+            <div class="module-label">Composant</div>
+            <div class="module-title">Interface MFC</div>
+            <p>
+                Gère la fenêtre principale, le MDI (Multi-Document Interface), les menus, barres d’outils
+                et les commandes utilisateur.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Composant</div>
+            <div class="module-title">Éditeur Scintilla</div>
+            <p>
+                Fournit l’édition de code avec coloration syntaxique, numéros de lignes et fonctionnalités
+                avancées d’édition.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Composant</div>
+            <div class="module-title">Intégration Roslyn</div>
+            <p>
+                Lance la compilation du code C# en utilisant le compilateur Roslyn (CSC.exe) et capture les
+                messages d’erreur et de sortie.
+            </p>
+        </div>
+        <div class="module-card">
+            <div class="module-label">Composant</div>
+            <div class="module-title">Gestion des projets/fichiers</div>
+            <p>
+                Assure l’ouverture, la sauvegarde et la gestion de plusieurs fichiers C# au sein de la même
+                session, via une interface MDI.
+            </p>
+        </div>
+    </div>
+
+    <!-- Interface et workflow -->
+    <h2>Interface utilisateur et flux de travail</h2>
+    <p>
+        VSDemo adopte une interface classique de type MDI (Multi-Document Interface), permettant d’ouvrir plusieurs
+        fichiers C# simultanément dans des fenêtres enfants. L’objectif est de proposer un environnement de travail
+        familier pour quiconque a déjà utilisé des IDE Windows traditionnels.
+    </p>
+    <ul>
+        <li>Fenêtre principale avec barre de menus et barres d’outils.</li>
+        <li>Fenêtres MDI pour chaque fichier source C# ouvert.</li>
+        <li>Éditeur Scintilla avec coloration syntaxique et numérotation des lignes.</li>
+        <li>Zone de sortie pour les messages de compilation et d’erreur.</li>
+        <li>Commandes pour compiler le fichier courant ou le projet actif.</li>
+    </ul>
+
+    <div class="gallery-placeholder">
+        <strong>Zone réservée à la galerie de captures</strong><br>
+        Tu peux intégrer ici un carrousel de captures d’écran de VSDemo
+        (fenêtre principale, éditeur de code, résultats de compilation)
+        afin d’illustrer visuellement l’environnement de travail.
+    </div>
+
+    <!-- Compilation C# via Roslyn -->
+    <h2>Compilation C# via Roslyn</h2>
+    <p>
+        Le cœur de VSDemo est sa capacité à compiler du code C# en s’appuyant sur le compilateur Roslyn
+        fourni par Microsoft. L’application n’implémente pas elle‑même un compilateur, mais orchestre
+        l’appel à <span class="code-inline">CSC.exe</span> avec les bons paramètres.
+    </p>
+    <ul>
+        <li>Configuration du chemin vers <span class="code-inline">CSC.exe</span> via une boîte de dialogue dédiée.</li>
+        <li>Construction de la ligne de commande pour compiler le fichier actif ou un ensemble de fichiers.</li>
+        <li>Récupération des messages de compilation (erreurs, avertissements, succès).</li>
+        <li>Affichage des résultats dans une zone de sortie au sein de l’IDE.</li>
+    </ul>
+    <p>
+        Cette approche permet de bénéficier de toute la puissance du compilateur Roslyn tout en conservant
+        une interface native légère.
+    </p>
+
+    <!-- Fonctionnalités clés -->
+    <h2>Fonctionnalités clés</h2>
+    <p>
+        VSDemo se concentre sur un ensemble de fonctionnalités ciblées, suffisantes pour expérimenter et
+        comprendre la compilation C# dans un environnement contrôlé.
+    </p>
+    <ul>
+        <li>Ouverture, édition et sauvegarde de fichiers C# (multi‑documents).</li>
+        <li>Coloration syntaxique via Scintilla pour le code C#.</li>
+        <li>Lancement de la compilation via Roslyn (CSC.exe).</li>
+        <li>Affichage des erreurs et avertissements de compilation.</li>
+        <li>Interface native réactive, sans lourdes dépendances externes pour l’UI.</li>
+    </ul>
+
+    <!-- Intérêt pour les développeurs -->
+    <h2>Intérêt pour les développeurs</h2>
+    <p>
+        Au‑delà de son utilisation comme mini‑IDE, VSDemo constitue un exemple concret et complet
+        de construction d’un environnement de développement basé sur&nbsp;:
+    </p>
+    <ul>
+        <li>une interface C++/MFC traditionnelle,</li>
+        <li>un éditeur de code Scintilla intégré,</li>
+        <li>et un backend de compilation moderne (Roslyn).</li>
+    </ul>
+    <p>
+        Il peut servir de point de départ pour&nbsp;:
+    </p>
+    <ul>
+        <li>expérimenter de nouvelles fonctionnalités d’IDE (intellisense, navigation, refactoring),</li>
+        <li>comprendre l’orchestration d’un compilateur externe dans une application native,</li>
+        <li>enseigner les bases de la compilation, des erreurs, et des cycles édition/compilation.</li>
+    </ul>
+
+    <!-- Pile technologique -->
+    <h2>Pile technologique</h2>
+    <ul>
+        <li><strong>C++</strong> natif pour l’architecture et l’interface.</li>
+        <li><strong>MFC / Win32</strong> pour le framework d’application desktop.</li>
+        <li><strong>Roslyn (CSC.exe)</strong> pour la compilation du code C#.</li>
+        <li><strong>Scintilla</strong> pour l’édition de code avec coloration syntaxique.</li>
+        <li>Intégration des outils de développement Microsoft sous Windows.</li>
+    </ul>
+
+    <!-- Dépôt & code source -->
+    <h2>Dépôt et code source</h2>
+    <div class="link-block">
+        <p>
+            <strong>Dépôt GitHub&nbsp;:</strong><br>
+            <a href="https://github.com/ChristophePichaud/VSDemo" target="_blank" rel="noopener">
+                https://github.com/ChristophePichaud/VSDemo
+            </a>
+        </p>
+        <p class="small-text">
+            Le dépôt contient le code source complet, la structure du projet, ainsi que le contexte nécessaire
+            pour comprendre comment VSDemo intègre Roslyn dans un environnement C++/MFC.
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

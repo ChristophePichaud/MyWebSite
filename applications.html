@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Applications — Carousel</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121826;
+      --text: #e6edf3;
+      --muted: #9aa7b2;
+      --border: rgba(230, 237, 243, 0.14);
+      --focus: #7aa2ff;
+      --link: #a8c1ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { color: var(--link); }
+    a:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .carousel {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 56px 1fr 56px;
+      align-items: stretch;
+      min-height: 520px;
+    }
+
+    .navBtn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      user-select: none;
+      transition: background 120ms ease;
+    }
+
+    .navBtn:hover { background: rgba(230, 237, 243, 0.06); }
+    .navBtn:focus { outline: 2px solid var(--focus); outline-offset: -2px; }
+
+    .navBtn[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .navIcon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .slide {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      align-items: stretch;
+      padding: 18px 18px 14px;
+      gap: 12px;
+    }
+
+    .imageBox {
+      width: 100%;
+      min-height: 340px;
+      overflow: auto;
+      border: 1px solid rgba(230, 237, 243, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .shot {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      flex: 0 0 auto;
+    }
+
+    .caption {
+      display: grid;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .label {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .actionLink {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid rgba(230, 237, 243, 0.22);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: inline-block;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .actionLink:hover { background: rgba(230, 237, 243, 0.06); }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      flex-wrap: wrap;
+    }
+
+    .srOnly {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 640px) {
+      .stage { grid-template-columns: 48px 1fr 48px; min-height: 460px; }
+      .imageBox { min-height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>My Applications</h1>
+    <p>Use the buttons to browse. Each card shows all images found under <strong>Images/MyApps/&lt;Application-Name&gt;/</strong>.</p>
+
+    <section class="carousel" aria-label="Application carousel">
+      <div class="stage" id="carouselStage">
+        <button class="navBtn" id="prevBtn" type="button" aria-label="Previous application">
+          <span class="navIcon" aria-hidden="true">‹</span>
+        </button>
+
+        <div class="slide" aria-live="polite">
+          <div class="imageBox" id="imageBox"></div>
+          <div class="caption">
+            <div class="title" id="appTitle"></div>
+            <div class="label" id="appLabel"></div>
+            <div class="actions">
+              <a class="actionLink" id="appLink" href="#">Application link</a>
+            </div>
+            <div class="meta" id="appMeta"></div>
+          </div>
+        </div>
+
+        <button class="navBtn" id="nextBtn" type="button" aria-label="Next application">
+          <span class="navIcon" aria-hidden="true">›</span>
+        </button>
+
+        <div class="srOnly" id="srStatus" aria-live="polite"></div>
+      </div>
+
+      <div class="footer">
+        <div class="meta" id="count"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Static list of applications + images discovered in New-Web-Site-v3/Images/MyApps
+    // Edit the label + link fields later to match your real descriptions/URLs.
+    const apps = [
+      {
+        name: "UltraFluidModeler",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "UFM1.png",
+          "UFM2.png",
+          "UFM3.png",
+          "ufm_ribbon_dev.png",
+          "ufm_ribbon_infra.png",
+          "ufm_ribbon_shapes.png",
+          "ribbon_features.png",
+          "ribbon_format.png",
+          "ribbon_home.png",
+          "ribbon_options.png"
+        ]
+      },
+      {
+        name: "VSDemo",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "VSDemo.png"
+        ]
+      },
+      {
+        name: "DonkeyKong1981",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "DonkeyKong.png"
+        ]
+      },
+      {
+        name: "ED5",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "ED5_1.png",
+          "ED5_2.png"
+        ]
+      },
+      {
+        name: "MyDesktop",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "MyDesktop1.png",
+          "MyDesktop2.png",
+          "MyDesktop3.png"
+        ]
+      },
+      {
+        name: "SIAP",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "SIAP1.png",
+          "SIAP2.png",
+          "SIAP3.png",
+          "SIAP4.png"
+        ]
+      },
+      {
+        name: "SpaceInvaders1978",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "SpaceInvaders.png"
+        ]
+      },
+      {
+        name: "SystemInfoGUI",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "FichSign2.png"
+        ]
+      },
+      {
+        name: "UltraFluidModeler",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "UFM1.png",
+          "UFM2.png",
+          "UFM3.png",
+          "ufm_ribbon_dev.png",
+          "ufm_ribbon_infra.png",
+          "ufm_ribbon_shapes.png",
+          "ribbon_features.png",
+          "ribbon_format.png",
+          "ribbon_home.png",
+          "ribbon_options.png"
+        ]
+      },
+      {
+        name: "VSDemo",
+        label: "(Add a longer title/description here — this can wrap on multiple lines.)",
+        linkHref: "#",
+        linkText: "Application link",
+        images: [
+          "VSDemo.png"
+        ]
+      }
+    ].map(a => ({
+      ...a,
+      title: a.name.replace(/[-_]+/g, " "),
+      imageSrcs: (a.images || []).map(f => {
+        const folder = encodeURIComponent(a.name).replace(/%2F/g, "/");
+        const file = encodeURIComponent(f).replace(/%2F/g, "/");
+        return `Images/MyApps/${folder}/${file}`;
+      })
+    }));
+
+    const imageBox = document.getElementById("imageBox");
+    const appTitle = document.getElementById("appTitle");
+    const appLabel = document.getElementById("appLabel");
+    const appLink = document.getElementById("appLink");
+    const appMeta = document.getElementById("appMeta");
+    const count = document.getElementById("count");
+    const srStatus = document.getElementById("srStatus");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const stage = document.getElementById("carouselStage");
+
+    let index = 0;
+
+    function updateNavDisabled() {
+      prevBtn.disabled = apps.length <= 1;
+      nextBtn.disabled = apps.length <= 1;
+    }
+
+    function setIndex(next) {
+      if (!apps.length) return;
+      index = (next + apps.length) % apps.length;
+      const a = apps[index];
+
+      imageBox.innerHTML = "";
+      if (!a.imageSrcs.length) {
+        const empty = document.createElement("div");
+        empty.className = "meta";
+        empty.textContent = "No images found for this application.";
+        imageBox.appendChild(empty);
+      } else {
+        a.imageSrcs.forEach((src, i) => {
+          const img = document.createElement("img");
+          img.className = "shot";
+          img.alt = `${a.title} screenshot ${i + 1}`;
+          img.loading = "lazy";
+          img.src = src;
+          imageBox.appendChild(img);
+        });
+      }
+
+      appTitle.textContent = a.title;
+      appLabel.textContent = a.label || "";
+
+      appLink.textContent = a.linkText || "Application link";
+      appLink.href = a.linkHref || "#";
+      if (!a.linkHref || a.linkHref === "#") {
+        appLink.setAttribute("aria-disabled", "true");
+      } else {
+        appLink.setAttribute("aria-disabled", "false");
+      }
+
+      appMeta.textContent = `Folder: ${a.name} | Images: ${a.images.length}`;
+      count.textContent = `${index + 1} / ${apps.length}`;
+      srStatus.textContent = `Showing ${a.title}. ${index + 1} of ${apps.length}.`;
+    }
+
+    function next() { setIndex(index + 1); }
+    function prev() { setIndex(index - 1); }
+
+    prevBtn.addEventListener("click", prev);
+    nextBtn.addEventListener("click", next);
+
+    // Keyboard support (left/right arrows)
+    stage.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+      if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+    });
+
+    // Make the stage focusable so keyboard navigation works
+    stage.tabIndex = 0;
+
+    updateNavDisabled();
+    setIndex(0);
+  </script>
+</body>
+</html>
