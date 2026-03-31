@@ -194,7 +194,7 @@
 <body>
   <div class="wrap">
     <h1>My Applications</h1>
-    <p>Use the buttons to browse. Each card shows all images found under <strong>Images/MyApps/&lt;Application-Name&gt;/</strong>.</p>
+    <p>Use the buttons to browse. Each card shows all images</strong>.</p>
 
     <section class="carousel" aria-label="Application carousel">
       <div class="stage" id="carouselStage">
@@ -351,7 +351,7 @@
       imageSrcs: (a.images || []).map(f => {
         const folder = encodeURIComponent(a.name).replace(/%2F/g, "/");
         const file = encodeURIComponent(f).replace(/%2F/g, "/");
-        return `Images/MyApps/${folder}/${file}`;
+        return `${file}`;
       })
     }));
 
