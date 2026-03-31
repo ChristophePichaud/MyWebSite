@@ -206,12 +206,12 @@
 	<br>Mon Application <a href="vsdemo.html">VSDemo</a>
 	<br>Tout savoir sur <a href="https://www.christophepichaud.info/">Christophe Pichaud</a>
 	<br><br>
-	<img src="Images/PapaPicheDonC2.jpeg" style="width: 90%; height: 90%;" />
+	<img src="PapaPicheDonC2.jpeg" style="width: 90%; height: 90%;" />
     <br><br>
 
     <img src="MesBooks.jpg" alt="Logo UltraFluid Modeler" width="50%" height="50%">
-    <img src="Images/MyApps/UltraFluidModeler/UFM1.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
-    <img src="Images/MyApps/VSDemo/VSDemo-BuildOK.png" alt="Logo VSDemo" width="100%" height="100%">
+    <img src="UFM1.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+    <img src="VSDemo.png" alt="Logo VSDemo" width="100%" height="100%">
 
 
     <section class="carousel" aria-label="Book carousel">
@@ -320,7 +320,7 @@
     ].map(b => ({
       ...b,
       title: b.file.replace(/\.[^.]+$/, ""),
-      src: "Images/" + encodeURIComponent(b.file).replace(/%2F/g, "/")
+      src: encodeURIComponent(b.file).replace(/%2F/g, "/")
     }));
 
     const coverImg = document.getElementById("coverImg");
