@@ -280,7 +280,7 @@
     }
 
     function srcFor(filename) {
-      return "Images/" + encodeURIComponent(filename).replace(/%2F/g, "/");
+      return encodeURIComponent(filename).replace(/%2F/g, "/");
     }
 
     function keySort(a, b) {
@@ -389,7 +389,7 @@
 
       const pdfLink = document.createElement("a");
       const pdfId = (paper.key || "REPLACE_ME");
-      pdfLink.href = `PDF/${encodeURIComponent(pdfId)}.pdf`;
+      pdfLink.href = `${encodeURIComponent(pdfId)}.pdf`;
       pdfLink.textContent = "Download PDF";
       actions.appendChild(pdfLink);
 
