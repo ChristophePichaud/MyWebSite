@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Books — Carousel + Summaries</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121826;
+      --text: #e6edf3;
+      --muted: #9aa7b2;
+      --border: rgba(230, 237, 243, 0.14);
+      --focus: #7aa2ff;
+      --link: #a8c1ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { color: var(--link); }
+    a:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .carousel {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 56px 1fr 56px;
+      align-items: stretch;
+      min-height: 420px;
+    }
+
+    .navBtn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      user-select: none;
+      transition: background 120ms ease;
+    }
+
+    .navBtn:hover { background: rgba(230, 237, 243, 0.06); }
+    .navBtn:focus { outline: 2px solid var(--focus); outline-offset: -2px; }
+
+    .navBtn[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .navIcon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .slide {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      align-items: center;
+      padding: 18px 18px 14px;
+      gap: 12px;
+    }
+
+    .imageBox {
+      width: 100%;
+      display: grid;
+      place-items: center;
+      min-height: 320px;
+      overflow: auto;
+    }
+
+    /* The JS sets width/height to 50% of the image's natural size.
+       This max-width prevents overflow on very small screens. */
+    .cover {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .caption {
+      display: grid;
+      gap: 4px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 650;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .actionLink {
+      color: var(--link);
+      text-decoration: none;
+      border: 1px solid rgba(230, 237, 243, 0.22);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: inline-block;
+    }
+
+    .actionLink:hover { background: rgba(230, 237, 243, 0.06); }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      flex-wrap: wrap;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(230, 237, 243, 0.12);
+      cursor: pointer;
+    }
+
+    .dot[aria-current="true"] {
+      background: rgba(122, 162, 255, 0.95);
+      border-color: rgba(122, 162, 255, 0.95);
+    }
+
+    .srOnly {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 640px) {
+      .stage { grid-template-columns: 48px 1fr 48px; min-height: 380px; }
+      .imageBox { min-height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+	<h1>Editions NET Azure Rangers - Les Rangers ouvrent la voie !</h1> 
+	Contact: <a href="mailto:christophep@cpixxi.com">christophep@cpixxi.com</a>
+	<br>Mes articles dans la revue <a href="programmez.html">Programmez</a>
+	<br>Screenshots de mes Applications sur GitHub <a href="applications.html">Applications (GitHub)</a> | 	Mon GitHub : <a href="https://github.com/christophepichaud">My repos</a>
+	<br>Mon Application <a href="ultrafluid-modeler.html">UltraFluid Modeler</a>
+	<br>Mon Application <a href="vsdemo.html">VSDemo</a>
+	<!--<br>Tout savoir sur <a href="https://www.christophepichaud.info/">Christophe Pichaud</a>-->
+    <p>Professional Experience & Technical Expertise</p>
+    <!-- <p>🛠️💻🌍 Missions from 1995 to 2025...</p><br>-->
+    <a href="https://www.amazon.fr/s?i=stripbooks&rh=p_27%3AChristophe%2BPichaud&s=date-desc-rank&qid=1765707087&text=Christophe+Pichaud&ref=sr_st_date-desc-rank" style="color: white;">My livres sur Amazon</a> | 
+    <!-- <img src="images/PapaPicheDonC.jpeg" ><br> -->
+    <a href="https://github.com/ChristophePichaud" style="color: white;">Mon GitHub</a><br>
+    <a href="https://christophep.wordpress.com/" style="color: white;">Blog en-us</a> | <a href="https://christophepichaud.home.blog/" style="color: white;">Blog fr-fr</a> | 
+    <a href="https://dotnetrangers.wordpress.com/" style="color: white;">Blog Rangers v1</a> | <a href="https://netazurerangers.wordpress.com/" style="color: white;">Blog Rangers v2</a><br>
+    <br>
+	<br><br>
+	<!--
+    <img src="PapaPicheDonC2.jpeg" style="width: 90%; height: 90%;" />
+    <br><br>
+    -->
+    <img src="MesBooks.jpg" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+    <img src="UFM1.png" alt="Logo UltraFluid Modeler" width="100%" height="100%">
+    <img src="VSDemo.png" alt="Logo VSDemo" width="100%" height="100%">
+
+
+    <section class="carousel" aria-label="Book carousel">
+      <div class="stage" id="carouselStage">
+        <button class="navBtn" id="prevBtn" type="button" aria-label="Previous book">
+          <span class="navIcon" aria-hidden="true">‹</span>
+        </button>
+
+        <div class="slide" aria-live="polite">
+          <div class="imageBox">
+            <img class="cover" id="coverImg" alt="" src="" />
+          </div>
+          <div class="caption">
+            <div class="title" id="bookTitle"></div>
+            <div class="actions">
+              <a class="actionLink" id="amazonLink" href="#" target="_blank" rel="noopener noreferrer">Amazon link</a>
+            </div>
+            <div class="meta" id="bookMeta"></div>
+          </div>
+        </div>
+
+        <button class="navBtn" id="nextBtn" type="button" aria-label="Next book">
+          <span class="navIcon" aria-hidden="true">›</span>
+        </button>
+
+        <div class="srOnly" id="srStatus" aria-live="polite"></div>
+      </div>
+
+      <div class="footer">
+        <div class="dots" id="dots" aria-label="Choose a book"></div>
+        <div class="meta" id="count"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // TODO: Replace each amazonUrl with your real Amazon store link.
+    // Images are in New-Web-Site-v1/Images
+    const books = [
+      {
+        file: "Pro CPP.jpg",
+        summary: "A professional-grade C++ book focusing on robust design, performance, and real-world patterns.",
+        amazonUrl: "https://www.amazon.fr/-/en/Professional-Philosophy-Principles-Christophe-Pichaud/dp/2322435481"
+      },
+      {
+        file: "Windows et NET.jpg",
+        summary: "Working effectively with Windows and .NET—tools, concepts, and practical guidance.",
+        amazonUrl: "https://www.amazon.fr/-/en/Windows-Technologie-Microsoft-NET-WIndow/dp/2322380822"
+      },
+      {
+        file: "AI Explications et Applications.jpg",
+        summary: "A practical guide to understanding AI concepts and applying them to real-world problems.",
+        amazonUrl: "https://www.amazon.fr/-/en/AI-Explications-Applications-%C3%A9vasion-intellectuelle/dp/B0FY5Z4PQB"
+      },
+      {
+        file: "AI Technical Papers.jpg",
+        summary: "A curated, technical-focused collection of AI topics and references for deeper study.",
+        amazonUrl: "https://www.amazon.fr/-/en/AI-Technical-Papers-October-collection/dp/B0FY71K7P8"
+      },
+      {
+        file: "Aide-Mémoire C#.jpg",
+        summary: "A compact C# reference you can keep at hand for syntax, patterns, and everyday reminders.",
+        amazonUrl: "https://www.amazon.fr/-/en/Aide-m%C3%A9moire-C-Christophe-Pichaud/dp/2100813226"
+      },
+      {
+        file: "Aide-Mémoire CPP.jpg",
+        summary: "A quick C++ cheat sheet covering common language features and essentials.",
+        amazonUrl: "https://www.amazon.fr/-/en/Christophe-Pichaud-ebook/dp/B08DG5TTH1"
+      },
+      {
+        file: "CPP Moderne et STL.jpg",
+        summary: "Modern C++ with a strong focus on the STL, containers, algorithms, and best practices.",
+        amazonUrl: "https://www.amazon.fr/-/en/Christophe-Pichaud-ebook/dp/B0DFXY6822"
+      },
+      {
+        file: "CPP Moderne STL Windows Linux Azure.jpg",
+        summary: "Applying modern C++ and STL across platforms: Windows, Linux, and cloud environments.",
+        amazonUrl: "https://www.amazon.fr/-/en/Apprendre-Moderne-Windows-Linux-Azure/dp/2322243175"
+      },
+      {
+        file: "Guide Ultime Séduction.jpg",
+        summary: "A high-level, structured guide with practical tips and principles.",
+        amazonUrl: "https://www.amazon.fr/-/en/Guide-Ultime-S%C3%A9duction-P%C3%A9cho-GonzessesTM/dp/B0FY4ZMG2W"
+      },
+      {
+        file: "IA Publications Essentielles.jpg",
+        summary: "An overview of essential AI publications and concepts to build a solid foundation.",
+        amazonUrl: "https://www.amazon.fr/-/en/Publications-Techniques-Essentielles-Best-Scientifique/dp/B0G2D421L4"
+      },
+      {
+        file: "Le Grand Guide Pétou.jpg",
+        summary: "A playful guide with a distinctive voice—built to entertain and surprise.",
+        amazonUrl: "https://www.amazon.fr/-/en/Grand-Guide-P%C3%A9tou-reste/dp/B0FX16R2MM"
+      },
+      {
+        file: "Le Water Chicken.jpg",
+        summary: "A fun, quirky title with a unique tone and memorable presentation.",
+        amazonUrl: "https://www.amazon.fr/-/en/Grande-Histoire-Water-Chicken-Rabbit/dp/B0FP9XCZBJ"
+      },
+      {
+        file: "Learn Modern CPP and STL.jpg",
+        summary: "Learn modern C++ and the STL with a practical, hands-on progression.",
+        amazonUrl: "https://www.amazon.fr/-/en/Learn-Modern-STL-Windows-Linux/dp/2322252247"
+      }
+    ].map(b => ({
+      ...b,
+      title: b.file.replace(/\.[^.]+$/, ""),
+      src: encodeURIComponent(b.file).replace(/%2F/g, "/")
+    }));
+
+    const coverImg = document.getElementById("coverImg");
+    const bookTitle = document.getElementById("bookTitle");
+    const bookMeta = document.getElementById("bookMeta");
+    const amazonLink = document.getElementById("amazonLink");
+    const count = document.getElementById("count");
+    const dots = document.getElementById("dots");
+    const srStatus = document.getElementById("srStatus");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const stage = document.getElementById("carouselStage");
+
+    let index = 0;
+
+    function applyHalfNaturalSize(img) {
+      // Enforce 50% of original (natural) size once dimensions are known.
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      img.width = Math.max(1, Math.round(img.naturalWidth / 2));
+      img.height = Math.max(1, Math.round(img.naturalHeight / 2));
+    }
+
+    function renderDots() {
+      dots.innerHTML = "";
+      books.forEach((_, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "dot";
+        btn.setAttribute("aria-label", `Go to book ${i + 1}`);
+        btn.addEventListener("click", () => setIndex(i));
+        dots.appendChild(btn);
+      });
+    }
+
+    function updateNavDisabled() {
+      prevBtn.disabled = books.length <= 1;
+      nextBtn.disabled = books.length <= 1;
+    }
+
+    function setIndex(next) {
+      if (!books.length) return;
+      index = (next + books.length) % books.length;
+      const b = books[index];
+
+      coverImg.onload = () => applyHalfNaturalSize(coverImg);
+      coverImg.src = b.src;
+      coverImg.alt = b.title;
+
+      // If the image is cached and loads instantly, onload may already have fired.
+      // In that case, apply sizing immediately.
+      if (coverImg.complete) applyHalfNaturalSize(coverImg);
+
+      bookTitle.textContent = b.title;
+      if (b.amazonUrl) {
+        amazonLink.href = b.amazonUrl;
+        amazonLink.style.display = "inline-block";
+        amazonLink.setAttribute("aria-disabled", "false");
+      } else {
+        amazonLink.href = "#";
+        amazonLink.style.display = "none";
+        amazonLink.setAttribute("aria-disabled", "true");
+      }
+
+      bookMeta.textContent = "Cover image: " + b.file;
+
+      count.textContent = `${index + 1} / ${books.length}`;
+      srStatus.textContent = `Showing ${b.title}. ${index + 1} of ${books.length}.`;
+
+      const dotButtons = dots.querySelectorAll("button.dot");
+      dotButtons.forEach((d, i) => d.setAttribute("aria-current", String(i === index)));
+
+    }
+
+    function next() { setIndex(index + 1); }
+    function prev() { setIndex(index - 1); }
+
+    prevBtn.addEventListener("click", prev);
+    nextBtn.addEventListener("click", next);
+
+    // Keyboard support (left/right arrows)
+    stage.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+      if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+    });
+
+    // Make the stage focusable so keyboard navigation works
+    stage.tabIndex = 0;
+
+    renderDots();
+    updateNavDisabled();
+    setIndex(0);
+  </script>
+</body>
+</html>
